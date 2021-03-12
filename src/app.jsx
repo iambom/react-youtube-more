@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './app.css';
-import Search from './components/Search/Search';
+import Header from './components/Header/Header';
 import SideMenu from './components/SideMenu/SideMenu';
 import VideoList from './components/VideoList/VideoList';
 
@@ -14,7 +14,7 @@ function App({youtube}) {
   
   return (
     <>
-      <Search />
+      <Header />
       <div id="wrap">
         <SideMenu />
         <VideoList videos={videos}/>
