@@ -5,7 +5,7 @@ const VideoList = ({videos}) => (
     <ul>
         {
             videos.map(video => (
-                <VideoItem video={video.snippet}/>
+                <VideoItem video={video}/>
             ))
         }
     </ul>

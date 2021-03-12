@@ -1,9 +1,19 @@
 import React from 'react';
+import styles from './VideoItem.module.css';
 
-const VideoItem = ({video}) => {
+const VideoItem = ({video, video : {snippet}}) => {
+    console.log(video)
     return (
-        <li>
-            <p>{video.title}</p>
+        <li className={styles.container}>
+            <div>
+                <img src={snippet.thumbnails.medium.url} alt="video thumbnail"/>
+            </div>
+            <div className={styles.metadata}>
+                <p className={styles.title}>{snippet.title}</p>
+                <p>{snippet.channelTitle}</p>
+                <span>조회수</span>
+                <span>{snippet.publishedAt}</span>
+            </div>
         </li>
     );
 }

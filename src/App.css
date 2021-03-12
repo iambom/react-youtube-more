@@ -1,2 +1,5 @@
 *{margin:0;padding:0;}
+#root{width:100%;overflow: hidden;}
+#wrap{width:100%;display: flex;}
+ul{width:100%;padding:0 2em;display: flex;flex-wrap: wrap;align-items: center;background-color: #ebe8e8;}
 li{list-style: none;}

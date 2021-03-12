@@ -1,18 +1,18 @@
-// class Youtube{
-//     constructor(httpClient) {
-//         this.youtube = httpClient;
-//     }
+class Youtube{
+    constructor(key) {
+        this.key = key;
+        this.getRequestOptions = {
+            method: 'GET',
+            redirect: 'follow',
+        }
+    }
 
-//     async mostPopular() {
-//         const response = await this.youtube.get('videos', {
-//             params: {
-//                 part: 'snippet',
-//                 chart: 'mostPopular',
-//                 maxResults: 20,
-//             }
-//         });
-//         console.log(response)
-//     }
-// }
+    async mostPopular() {
+        const response = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=kr&maxResults=25&key=AIzaSyD_A-MIp774wIMuIm-fPIAPnZaJvG6aVx0`, this.getRequestOptions);
+        const result = await response.json();
+        return result.items;
+    }
 
-// export default Youtube;
+}
+
+export default Youtube;
