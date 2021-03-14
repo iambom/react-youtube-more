@@ -1,7 +1,10 @@
 
-.container{width:100%;padding:0.5em 0;display: flex;justify-content: center;position: fixed;top:0;left:0;background-color: #fff;}
-.headerLeft{width:15%;}
-a{display: inline-block;width: 80px;}
+button{background: none;border:none;width: 30px;height:30px;vertical-align: middle;}
+
+.container{width:100%;padding:0.5em;display: flex;justify-content: center;position: fixed;top:0;left:0;background-color: #fff;}
+.headerLeft{width:15%;position:relative;}
+.guide{margin:0 16px 0 0.5em;}
+a{display: inline-block;width: 80px;vertical-align: middle;}
 .logo{width:100%;}
-.regionCode{color:#333;font-size: 0.6em;position: absolute;top:3px;padding:0 0.3em;}
+.regionCode{color:#333;font-size: 0.6em;position: absolute;top:-2px;padding:0 0.3em;}
 .headerRight{background-color: skyblue;width:15%;}

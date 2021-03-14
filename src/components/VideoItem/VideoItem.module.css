@@ -1,3 +1,4 @@
-.container {cursor: pointer;margin:0.5em 0;background-color: darkgray;}
+.container {width:25%;cursor: pointer;margin:0.5em 0;background-color: darkgray;min-height: 20em;}
+img{display: block;width:100%;}
 .metadata{width:100%;}
-.title{height:2em;line-height: 2em; overflow: hidden; text-overflow: ellipsis;white-space: nowrap;}
+.title{max-height:3rem;line-height: 1.5rem;padding-right: 2rem; overflow: hidden; text-overflow: ellipsis;white-space: normal;}

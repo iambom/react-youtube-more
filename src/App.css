@@ -1,7 +1,7 @@
 *{margin:0;padding:0;}
 #root{width:100%;overflow: hidden;}
-#wrap{width:100%;display: flex;padding-top: 45px;}
-ul{width:100%;padding:0 2em;display: flex;flex-wrap: wrap;align-items: center;background-color: #ebe8e8;}
+#wrap{width:100%;display: flex;padding-top: 62px;}
+ul{width:100%;padding:0 4em;display: flex;flex-wrap: wrap;align-items: center;background-color: #ebe8e8;}
 li{list-style: none;}
 a{text-decoration: none;}
 button{cursor: pointer;}

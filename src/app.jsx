@@ -10,11 +10,14 @@ function App({youtube}) {
   useEffect(() => {
     console.log("start")
     youtube.mostPopular().then(videos => setVideos(videos));
-  }, []);
-  
+  }, [youtube]);
+
+  const search = (query) => {
+    youtube.search(query).then(videos => setVideos(videos));
+  };
   return (
     <>
-      <Header />
+      <Header onSearch={search}/>
       <div id="wrap">
         <SideMenu />
         <VideoList videos={videos}/>
