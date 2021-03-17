@@ -8,7 +8,7 @@ class Youtube{
     }
 
     async mostPopular() {
-        const response = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=kr&maxResults=25&key=AIzaSyD_A-MIp774wIMuIm-fPIAPnZaJvG6aVx0`, this.getRequestOptions);
+        const response = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=kr&maxResults=25&part=statistics&key=AIzaSyD_A-MIp774wIMuIm-fPIAPnZaJvG6aVx0`, this.getRequestOptions);
         const result = await response.json();
         return result.items;
     }
