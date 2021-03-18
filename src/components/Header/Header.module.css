@@ -1,7 +1,7 @@
 
-button{background: none;border:none;width: 30px;height:30px;vertical-align: middle;}
+.container button{width: 30px;height:30px;vertical-align: middle;}
 
-.container{width:100%;padding:0.5em;display: flex;justify-content: center;position: fixed;top:0;left:0;background-color: #fff;}
+.container{width:100%;padding:0.5em;display: flex;justify-content: center;position: fixed;top:0;left:0;background-color: #fff;z-index: 99;}
 .headerLeft{width:15%;position:relative;}
 .guide{margin:0 16px 0 0.5em;}
 a{display: inline-block;width: 80px;vertical-align: middle;}

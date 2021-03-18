@@ -1,0 +1,4 @@
+* {box-sizing: border-box;margin:0;padding:0;}
+#root{width:100%;overflow: hidden;}
+#wrap{width:100%;display: flex;padding-top: 62px;}
+button{background: none;border:none;}

@@ -11,6 +11,7 @@ function App({youtube}) {
 
   const selectVideo = (video) => {
     setSelectedVideo(video);
+    window.scrollTo(0, 0)
   }
 
   useEffect(() => {
@@ -33,8 +34,8 @@ function App({youtube}) {
             </div>
           )
         }
-        <SideMenu />
-        <VideoList videos={videos} onVideoClick={selectVideo}/>
+        <SideMenu display={selectedVideo ? 'none' : 'block'}/>
+        <VideoList videos={videos} onVideoClick={selectVideo} display={selectedVideo ? 'grid' : 'list'}/>
       </div>
     </>
   )
