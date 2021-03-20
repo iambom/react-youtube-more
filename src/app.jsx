@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { cloneElement, useEffect, useState } from 'react';
 import styles from './app.module.css';
 import Header from './components/Header/Header';
 import SideMenu from './components/SideMenu/SideMenu';
@@ -21,7 +21,23 @@ function App({youtube}) {
 
   const search = (query) => {
     setSelectedVideo(null);
-    youtube.search(query).then(videos => setVideos(videos));
+    youtube.search(query).then(videos => {
+      console.log("search video ", videos)
+      let videoArray = [];
+      videos.forEach(element => {
+        // console.log(element.id.kind);
+        if (element.id.kind === "youtube#video") {
+          videoArray.push(element.id.videoId);
+        } 
+      });
+      youtube.getVideoList(videoArray).then(videos => {
+        console.log("서치된 비디오",videos);
+        setVideos(videos);
+      });
+      // console.log(videoArray)
+      // setVideos(videos);
+    
+    });
   };
   return (
     <>
