@@ -11,10 +11,12 @@ const VideoItem = ({video, video : {snippet}, channelLogos, onVideoClick, displa
             </div>
             <div className={styles.metadata}>
                 <img src={channelLogos[0]} alt="channel logo"/>
-                <p className={styles.title}>{snippet.title}</p>
-                <p className={styles.channel_title}>{snippet.channelTitle}</p>
-                <span>{video.statistics.viewCount}회</span>
-                <span>{snippet.publishedAt}</span>
+                <div className={styles.txt}>
+                    <p className={styles.title}>{snippet.title}</p>
+                    <p className={styles.channel_title}>{snippet.channelTitle}</p>
+                    <span>{video.statistics.viewCount}회</span>
+                    <span>{snippet.publishedAt}</span>
+                </div>
             </div>
         </li>
     );
