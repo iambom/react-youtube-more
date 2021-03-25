@@ -1,4 +1,4 @@
-import { cloneElement, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './app.module.css';
 import Header from './components/Header/Header';
 import SideMenu from './components/SideMenu/SideMenu';
@@ -7,6 +7,7 @@ import VideoList from './components/VideoList/VideoList';
 
 function App({youtube}) {
   const [videos, setVideos] = useState([]);
+  const [channelLogos, setChannelLogos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
   const selectVideo = (video) => {
@@ -16,29 +17,40 @@ function App({youtube}) {
 
   useEffect(() => {
     console.log("start")
-    youtube.mostPopular().then(videos => setVideos(videos));
+    youtube.mostPopular().then(videos => {
+      let chennelIdList = [];
+      videos.forEach(element => {
+        chennelIdList.push(element.snippet.channelId);
+      });
+      youtube.getChannelList(chennelIdList).then(channels =>{
+        channels.forEach(channel => {
+          // console.log("채널 ",channel.snippet.thumbnails.default.url)
+          let thumbnails = [];
+          thumbnails.push(channel.snippet.thumbnails.default.url);
+          console.log("채널 url array : ", thumbnails)
+          setChannelLogos(thumbnails)
+        })
+      });
+      console.log("비디오 ", videos);
+      setVideos(videos);
+    });
   }, [youtube]);
 
   const search = (query) => {
     setSelectedVideo(null);
     youtube.search(query).then(videos => {
-      console.log("search video ", videos)
-      let videoArray = [];
+      let videoIdArray = [];
+      console.log(videos)
       videos.forEach(element => {
-        // console.log(element.id.kind);
         if (element.id.kind === "youtube#video") {
-          videoArray.push(element.id.videoId);
+          videoIdArray.push(element.id.videoId);
         } 
       });
-      youtube.getVideoList(videoArray).then(videos => {
-        console.log("서치된 비디오",videos);
+      youtube.getVideoList(videoIdArray).then(videos => {
         setVideos(videos);
       });
-      // console.log(videoArray)
-      // setVideos(videos);
-    
     });
-  };
+}
   return (
     <>
       <Header onSearch={search}/>
@@ -51,7 +63,7 @@ function App({youtube}) {
           )
         }
         <SideMenu display={selectedVideo ? 'none' : 'block'}/>
-        <VideoList videos={videos} onVideoClick={selectVideo} display={selectedVideo ? 'grid' : 'list'}/>
+        <VideoList videos={videos} channelLogos={channelLogos} onVideoClick={selectVideo} display={selectedVideo ? 'grid' : 'list'}/>
       </div>
     </>
   )
