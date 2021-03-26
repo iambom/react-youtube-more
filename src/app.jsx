@@ -39,9 +39,18 @@ function App({youtube}) {
         } 
       });
       youtube.getVideoList(videoIdArray).then(videos => {
+        let chennelIdList = [];
+        videos.forEach(element => {
+          chennelIdList.push(element.snippet.channelId);
+        });
+        youtube.getChannelList(chennelIdList).then(channels =>{
+          setChannelLogos(channels)
+        });
         setVideos(videos);
       });
     });
+    
+    window.scrollTo(0, 0)
 }
   return (
     <>

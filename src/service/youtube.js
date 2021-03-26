@@ -1,5 +1,3 @@
-import { Children } from "react";
-
 class Youtube{
     constructor(key) {
         this.key = key;
@@ -22,9 +20,9 @@ class Youtube{
     }
 
     async search(query) {
-        const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${query}&key=${this.key}`, this.getRequestOptions);
+        const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${query}&type=video&key=${this.key}`, this.getRequestOptions);
         const result = await response.json();
-        console.log("검색 ", query ,result)
+        console.log("검색 ", result.items)
         return result.items
     }
 

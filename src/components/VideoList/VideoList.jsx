@@ -3,6 +3,7 @@ import VideoItem from '../VideoItem/VideoItem';
 import styles from './VideoList.module.css';
 
 const VideoList = ({videos, channelLogos, onVideoClick, display}) => {
+    console.log(videos)
     const displayType = display === 'grid' ? styles.grid : styles.list;
     return (
         <ul className={`${displayType}`}>
