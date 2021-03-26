@@ -7,9 +7,17 @@ const VideoList = ({videos, channelLogos, onVideoClick, display}) => {
     return (
         <ul className={`${displayType}`}>
             {
-                videos.map(video => (
-                    <VideoItem video={video} channelLogos={channelLogos} key={video.id} onVideoClick={onVideoClick} display={display}/>
-                ))
+                videos.map(video => {
+                    let channelLogo = "";
+                    channelLogos.forEach(element => {
+                        if(element.id === video.snippet.channelId) {
+                            channelLogo = element.snippet.thumbnails.default.url
+                        }
+                    });
+                    return (
+                        <VideoItem key={video.id} video={video} channelLogo={channelLogo} onVideoClick={onVideoClick} display={display}/>
+                     )
+                })
             }
         </ul>
     )

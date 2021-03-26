@@ -23,15 +23,8 @@ function App({youtube}) {
         chennelIdList.push(element.snippet.channelId);
       });
       youtube.getChannelList(chennelIdList).then(channels =>{
-        channels.forEach(channel => {
-          // console.log("채널 ",channel.snippet.thumbnails.default.url)
-          let thumbnails = [];
-          thumbnails.push(channel.snippet.thumbnails.default.url);
-          console.log("채널 url array : ", thumbnails)
-          setChannelLogos(thumbnails)
-        })
+        setChannelLogos(channels)
       });
-      console.log("비디오 ", videos);
       setVideos(videos);
     });
   }, [youtube]);
@@ -40,7 +33,6 @@ function App({youtube}) {
     setSelectedVideo(null);
     youtube.search(query).then(videos => {
       let videoIdArray = [];
-      console.log(videos)
       videos.forEach(element => {
         if (element.id.kind === "youtube#video") {
           videoIdArray.push(element.id.videoId);
