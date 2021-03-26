@@ -5,7 +5,7 @@ const VideoItem = ({video, video : {snippet}, channelLogo, onVideoClick, display
     // console.log("VideoItem channelLogos : ",channelLogos)
     const displayType = display === 'list' ? styles.list : styles.grid;
     return (
-        <li className={`${styles.container} ${displayType}`} onClick={() => onVideoClick(video)}>
+        <li className={`${styles.container} ${displayType}`} onClick={() => onVideoClick(video, channelLogo)}>
             <div>
                 <img src={snippet.thumbnails.medium.url} alt="video thumbnail"/>
             </div>

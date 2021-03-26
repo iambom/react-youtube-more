@@ -10,8 +10,8 @@ function App({youtube}) {
   const [channelLogos, setChannelLogos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
-  const selectVideo = (video) => {
-    setSelectedVideo(video);
+  const selectVideo = (video, channelLogo) => {
+    setSelectedVideo({video, channelLogo});
     window.scrollTo(0, 0)
   }
 
@@ -50,9 +50,9 @@ function App({youtube}) {
         {
           selectedVideo &&  (
             <div className={styles.detail}>
-              <VideoDetail video={selectedVideo}/>
+              <VideoDetail video={selectedVideo.video} channelLogo={selectedVideo.channelLogo}/>
             </div>
-          )
+            )
         }
         <SideMenu display={selectedVideo ? 'none' : 'block'}/>
         <VideoList videos={videos} channelLogos={channelLogos} onVideoClick={selectVideo} display={selectedVideo ? 'grid' : 'list'}/>

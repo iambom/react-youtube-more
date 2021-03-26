@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './VideoDetail.module.css';
 
-const VideoDetail = ({video, video : {snippet}}) => (
+const VideoDetail = ({video, video : {snippet}, channelLogo}) => (
     <div className={styles.container}>
         <div className={styles.iframe_wrap}>
             <iframe src={`https://www.youtube.com/embed/${video.id}`} title="youtube video player" type="text/html" frameBorder="0" allowFullScreen></iframe>
@@ -21,7 +21,7 @@ const VideoDetail = ({video, video : {snippet}}) => (
         </div>
         <div className={styles.channel_wrap}>
             <a href="#" className='channelLogo'>
-                <img src="" alt="channel logo"/>
+                <img src={channelLogo} alt="channel logo"/>
             </a>
         </div>
     </div>
