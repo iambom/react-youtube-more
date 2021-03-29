@@ -5,7 +5,7 @@ import styles from './Header.module.css'
 
 const Header = ({onSearch}) => {
     return (
-       <div className={styles.container}>
+       <div className={styles.header}>
            <div className={styles.headerLeft}>
                 <button className={styles.guide}>guide</button>
                 <a href="https://www.youtube.com/">
