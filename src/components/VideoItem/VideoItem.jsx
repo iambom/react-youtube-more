@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './VideoItem.module.css';
 
 const VideoItem = ({video, video : {snippet}, channelLogo, onVideoClick, display}) => {
     // console.log("VideoItem channelLogos : ",channelLogos)
+    const getViewCount = () => {
+        const viewCount = video.statistics.viewCount;
+        const koreanUnits = ['', '만', '억', '조'];
+        let answer = '';
+        let unit = 10000;
+        let index = 0;
+        let division = Math.pow(unit, index);
+
+        while(Math.floor(viewCount / division) > 0) {
+            const mod = Math.floor(viewCount % (division * unit) / division);
+            answer = `${mod}${koreanUnits[index]}`;
+            division = Math.pow(unit, ++index);
+        }
+        return answer;
+    }
+    
     const displayType = display === 'list' ? styles.list : styles.grid;
     return (
         <li className={`${styles.container} ${displayType}`} onClick={() => onVideoClick(video, channelLogo)}>
@@ -14,7 +30,7 @@ const VideoItem = ({video, video : {snippet}, channelLogo, onVideoClick, display
                 <div className={styles.txt}>
                     <p className={styles.title}>{snippet.title}</p>
                     <p className={styles.channel_title}>{snippet.channelTitle}</p>
-                    <span>{video.statistics.viewCount}회</span>
+                    <span>조회수 {getViewCount()}회</span>
                     <span>{snippet.publishedAt}</span>
                 </div>
             </div>
