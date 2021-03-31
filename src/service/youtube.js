@@ -14,7 +14,7 @@ class Youtube{
     }
 
     async getChannelList(channelIdList) {
-        const response = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelIdList}&key=${this.key}`, this.getRequestOptions);
+        const response = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelIdList}&part=statistics&key=${this.key}`, this.getRequestOptions);
         const result = await response.json();
         return result.items;
     }

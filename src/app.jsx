@@ -7,11 +7,11 @@ import VideoList from './components/VideoList/VideoList';
 
 function App({youtube}) {
   const [videos, setVideos] = useState([]);
-  const [channelLogos, setChannelLogos] = useState([]);
+  const [channels, setChannels] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
-  const selectVideo = (video, channelLogo) => {
-    setSelectedVideo({video, channelLogo});
+  const selectVideo = (video, channel, channelLogo) => {
+    setSelectedVideo({video, channel, channelLogo});
     window.scrollTo(0, 0)
   }
 
@@ -23,7 +23,8 @@ function App({youtube}) {
         chennelIdList.push(element.snippet.channelId);
       });
       youtube.getChannelList(chennelIdList).then(channels =>{
-        setChannelLogos(channels)
+        // console.log("채널 정보",channels)
+        setChannels(channels)
       });
       setVideos(videos);
     });
@@ -44,7 +45,8 @@ function App({youtube}) {
           chennelIdList.push(element.snippet.channelId);
         });
         youtube.getChannelList(chennelIdList).then(channels =>{
-          setChannelLogos(channels)
+          // console.log("채널 정보",channels)
+          setChannels(channels)
         });
         setVideos(videos);
       });
@@ -59,12 +61,12 @@ function App({youtube}) {
         {
           selectedVideo &&  (
             <div className={styles.detail}>
-              <VideoDetail video={selectedVideo.video} channelLogo={selectedVideo.channelLogo}/>
+              <VideoDetail video={selectedVideo.video} channelLogo={selectedVideo.channelLogo} channel={selectedVideo.channel}/>
             </div>
             )
         }
         <SideMenu display={selectedVideo ? 'none' : 'block'}/>
-        <VideoList videos={videos} channelLogos={channelLogos} onVideoClick={selectVideo} display={selectedVideo ? 'grid' : 'list'}/>
+        <VideoList videos={videos} channels={channels} onVideoClick={selectVideo} display={selectedVideo ? 'grid' : 'list'}/>
       </div>
     </>
   )

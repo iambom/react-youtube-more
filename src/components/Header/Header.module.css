@@ -6,7 +6,7 @@
 .headerLeft{width:15%;position:relative;}
 .guide{margin:0 16px 0 0.5em;}
 /* .guide:before{background-image:url(../../images/hamburger_menu.jpg);} */
-a{display: inline-block;width: 80px;vertical-align: middle;}
+.header a{display: inline-block;width: 80px;vertical-align: middle;}
 .logo{width:100%;}
 .regionCode{color:#333;font-size: 0.6em;position: absolute;top:-2px;padding:0 0.3em;}
 .headerRight{background-color: skyblue;width:15%;}

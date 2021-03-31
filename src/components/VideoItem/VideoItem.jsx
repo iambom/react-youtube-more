@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './VideoItem.module.css';
 
-const VideoItem = ({video, video : {snippet}, channelLogo, onVideoClick, display}) => {
+const VideoItem = ({video, video : {snippet}, channel, channelLogo, onVideoClick, display}) => {
     // console.log("VideoItem channelLogos : ",channelLogos)
     const getViewCount = () => {
         const viewCount = video.statistics.viewCount;
@@ -20,11 +20,8 @@ const VideoItem = ({video, video : {snippet}, channelLogo, onVideoClick, display
     }
 
     const getPublishedTime = () => {
-        //현재시간
         let now = new Date(); 
-        //게시 시간 
         let writeDay = new Date(snippet.publishedAt);
-        // console.log(writeDay)
         let answer = '';
         let publishedTime = '';
         if(now.getFullYear() > writeDay.getFullYear()) {
@@ -32,11 +29,11 @@ const VideoItem = ({video, video : {snippet}, channelLogo, onVideoClick, display
             publishedTime = `${answer}년 전`
         }else if(now.getMonth() > writeDay.getMonth()) {
             answer = now.getMonth() - writeDay.getMonth();
-            publishedTime = `${answer}달 전`;
+            publishedTime = `${answer}개월 전`;
         }else if(now.getDate() > writeDay.getDate()) {
             answer = now.getDate() - writeDay.getDate();
             publishedTime = `${answer}일 전`;
-        }else if(now.getDate() == writeDay.getDate()){
+        }else if(now.getDate() === writeDay.getDate()){
             let nowTime = now.getTime();
             let writeTime = writeDay.getTime();
             if(nowTime > writeTime) {
@@ -62,7 +59,7 @@ const VideoItem = ({video, video : {snippet}, channelLogo, onVideoClick, display
     
     const displayType = display === 'list' ? styles.list : styles.grid;
     return (
-        <li className={`${styles.container} ${displayType}`} onClick={() => onVideoClick(video, channelLogo)}>
+        <li className={`${styles.container} ${displayType}`} onClick={() => onVideoClick(video, channel, channelLogo)}>
             <div>
                 <img src={snippet.thumbnails.medium.url} alt="video thumbnail"/>
             </div>
@@ -73,7 +70,6 @@ const VideoItem = ({video, video : {snippet}, channelLogo, onVideoClick, display
                     <p className={styles.channel_title}>{snippet.channelTitle}</p>
                     <span>조회수 {getViewCount()}회</span>
                     <span>{getPublishedTime()}</span>
-                    {/* <span>{snippet.publishedAt}</span> */}
                 </div>
             </div>
         </li>
