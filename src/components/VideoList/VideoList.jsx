@@ -3,7 +3,6 @@ import VideoItem from '../VideoItem/VideoItem';
 import styles from './VideoList.module.css';
 
 const VideoList = ({videos, channels, onVideoClick, display}) => {
-    console.log(channels)
     const displayType = display === 'grid' ? styles.grid : styles.list;
     return (
         <ul className={`${displayType}`}>
@@ -17,7 +16,7 @@ const VideoList = ({videos, channels, onVideoClick, display}) => {
                         }
                     });
                     return (
-                        <VideoItem key={video.id} video={video} channel={channel} channelLogo={channelLogo} channel={channel} onVideoClick={onVideoClick} display={display}/>
+                        <VideoItem key={video.id} video={video} channel={channel} channelLogo={channelLogo} onVideoClick={onVideoClick} display={display}/>
                     )
                 })
             }

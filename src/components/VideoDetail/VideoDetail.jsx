@@ -37,6 +37,13 @@ const VideoDetail = ({video, video : {snippet}, channelLogo, channel}) => {
        return result;
 
     }
+    const getDescription = () => {
+        const description = snippet.description;
+        let urlRegex = /(https?:\/\/[^\s]+)/g;
+        return description.replace(urlRegex, (url) => {
+            return `<a href=${url}>${url}</a>`
+        })
+    }
     
     return(
         <div className={styles.container}>
@@ -56,21 +63,28 @@ const VideoDetail = ({video, video : {snippet}, channelLogo, channel}) => {
                     <button className={styles.btn_save}>save</button>
                 </div>
             </div>
-            <div className={styles.channel_wrap}>
-                <a href="#" className='channelLogo'>
-                    <img src={channelLogo} alt="channel logo"/>
-                </a>
-                <div className={styles.channel_info}>
-                    <a href="" className={styles.channel_title}>
-                        {snippet.channelTitle}
+
+            <div className={styles.channel_container}>
+                <div className={styles.channel_wrap}>
+                    <a href="#" className='channelLogo'>
+                        <img src={channelLogo} alt="channel logo"/>
                     </a>
-                    {
-                        channel.statistics.hiddenSubscriberCount || (
-                            <span>구독자 {getSubscriberCount(channel.statistics.subscriberCount)}명</span>
-                        )
-                    }
+                    <div className={styles.channel_info}>
+                        <a href="" className={styles.channel_title}>
+                            {snippet.channelTitle}
+                        </a>
+                        {
+                            channel.statistics.hiddenSubscriberCount || (
+                                <span>구독자 {getSubscriberCount(channel.statistics.subscriberCount)}명</span>
+                            )
+                        }
+                    </div>
+                    <button>구독</button>
                 </div>
+                
+                <div className={styles.description}  dangerouslySetInnerHTML={ {__html:getDescription()}}></div>
             </div>
+
             <div className={styles.comment_wrap}>
                 <p>댓글 {getViewCount(video.statistics.commentCount)}개</p>
             </div>

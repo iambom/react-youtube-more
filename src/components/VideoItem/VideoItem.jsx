@@ -60,7 +60,7 @@ const VideoItem = ({video, video : {snippet}, channel, channelLogo, onVideoClick
     const displayType = display === 'list' ? styles.list : styles.grid;
     return (
         <li className={`${styles.container} ${displayType}`} onClick={() => onVideoClick(video, channel, channelLogo)}>
-            <div>
+            <div className={styles.img_wrap}>
                 <img src={snippet.thumbnails.medium.url} alt="video thumbnail"/>
             </div>
             <div className={styles.metadata}>
@@ -68,8 +68,9 @@ const VideoItem = ({video, video : {snippet}, channel, channelLogo, onVideoClick
                 <div className={styles.txt}>
                     <p className={styles.title}>{snippet.title}</p>
                     <p className={styles.channel_title}>{snippet.channelTitle}</p>
-                    <span>조회수 {getViewCount()}회</span>
+                    <span className={styles.view_count}>조회수 {getViewCount()}회</span>
                     <span>{getPublishedTime()}</span>
+                    <span></span>
                 </div>
             </div>
         </li>
