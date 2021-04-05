@@ -8,9 +8,19 @@ import VideoList from './components/VideoList/VideoList';
 function App({youtube}) {
   const [videos, setVideos] = useState([]);
   const [channels, setChannels] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [channelLogos, setChannelLogos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
   const selectVideo = (video, channel, channelLogo) => {
+    youtube.getCommentList(video.id).then(comments => {
+      let channelIdList = [];
+      comments.forEach(element => {
+        channelIdList.push(element.snippet.topLevelComment.snippet.authorChannelId.value);
+      });
+      youtube.getChannelList(channelIdList).then(channels => setChannelLogos(channels))
+      setComments(comments);
+    })
     setSelectedVideo({video, channel, channelLogo});
     window.scrollTo(0, 0)
   }
@@ -18,12 +28,11 @@ function App({youtube}) {
   useEffect(() => {
     console.log("start")
     youtube.mostPopular().then(videos => {
-      let chennelIdList = [];
+      let channelIdList = [];
       videos.forEach(element => {
-        chennelIdList.push(element.snippet.channelId);
+        channelIdList.push(element.snippet.channelId);
       });
-      youtube.getChannelList(chennelIdList).then(channels =>{
-        // console.log("채널 정보",channels)
+      youtube.getChannelList(channelIdList).then(channels =>{
         setChannels(channels)
       });
       setVideos(videos);
@@ -40,12 +49,11 @@ function App({youtube}) {
         } 
       });
       youtube.getVideoList(videoIdArray).then(videos => {
-        let chennelIdList = [];
+        let channelIdList = [];
         videos.forEach(element => {
-          chennelIdList.push(element.snippet.channelId);
+          channelIdList.push(element.snippet.channelId);
         });
-        youtube.getChannelList(chennelIdList).then(channels =>{
-          // console.log("채널 정보",channels)
+        youtube.getChannelList(channelIdList).then(channels =>{
           setChannels(channels)
         });
         setVideos(videos);
@@ -61,7 +69,8 @@ function App({youtube}) {
         {
           selectedVideo &&  (
             <div className={styles.detail}>
-              <VideoDetail video={selectedVideo.video} channelLogo={selectedVideo.channelLogo} channel={selectedVideo.channel}/>
+              <VideoDetail video={selectedVideo.video} channelLogo={selectedVideo.channelLogo} channel={selectedVideo.channel}
+              comments={comments} commentsChannelLogos={channelLogos}/>
             </div>
             )
         }

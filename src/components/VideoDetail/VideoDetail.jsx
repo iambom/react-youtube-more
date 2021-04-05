@@ -1,8 +1,8 @@
 import React from 'react';
+import Comments from '../Comments/Comments';
 import styles from './VideoDetail.module.css';
 
-const VideoDetail = ({video, video : {snippet}, channelLogo, channel}) => {
-    console.log("채널 정보 ", video)
+const VideoDetail = ({video, video : {snippet}, channelLogo, channel, comments, commentsChannelLogos}) => {
     const getViewCount = (count) => {
         const result = count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         
@@ -59,8 +59,8 @@ const VideoDetail = ({video, video : {snippet}, channelLogo, channel}) => {
                 <div className={styles.count_right}>
                     <button className={styles.btn_like}>{getSubscriberCount(video.statistics.likeCount)}</button>
                     <button className={styles.btn_dislike}>{getSubscriberCount(video.statistics.dislikeCount)}</button>
-                    <button className={styles.btn_share}>share</button>
-                    <button className={styles.btn_save}>save</button>
+                    <button className={styles.btn_share}>공유</button>
+                    <button className={styles.btn_save}>저장</button>
                 </div>
             </div>
 
@@ -87,6 +87,7 @@ const VideoDetail = ({video, video : {snippet}, channelLogo, channel}) => {
 
             <div className={styles.comment_wrap}>
                 <p>댓글 {getViewCount(video.statistics.commentCount)}개</p>
+                <Comments comments={comments} commentsChannelLogos={commentsChannelLogos}/>
             </div>
         </div>
     )

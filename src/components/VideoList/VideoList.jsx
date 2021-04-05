@@ -5,7 +5,7 @@ import styles from './VideoList.module.css';
 const VideoList = ({videos, channels, onVideoClick, display}) => {
     const displayType = display === 'grid' ? styles.grid : styles.list;
     return (
-        <ul className={`${displayType}`}>
+        <ul className={`${styles.container} ${displayType}`}>
             {
                 videos.map(video => {
                     let channelLogo, channel;
