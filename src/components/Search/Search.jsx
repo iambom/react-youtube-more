@@ -21,7 +21,7 @@ const Search = ({onSearch}) => {
     return(
         <div className={styles.search}>
             <input ref={inputRef} type="search" placeholder="검색" onKeyPress={onKeyPress}/>
-            <button className={styles.button} type="submit" onClick={onClick}>search button</button>
+            <button className={styles.button} type="submit" onClick={onClick}><i className="fas fa-search"></i></button>
         </div>
     )
 }

@@ -2,9 +2,7 @@ import React from 'react';
 import styles from './Comments.module.css';
 
 const Comments = ({comments, commentsChannelLogos}) => {
-    console.log("댓글 로고", commentsChannelLogos)
-    console.log('댓글 ', comments)
-
+    console.log(comments)
     const getPublishedTime = (publishedAt) => {
         let now = new Date(); 
         let writeDay = new Date(publishedAt);
@@ -43,13 +41,12 @@ const Comments = ({comments, commentsChannelLogos}) => {
         return publishedTime;
     }
     
-
     return(
         <ul className={styles.container}>
             {
 
                 comments.map(comment => {
-                    const {authorChannelId ,authorDisplayName, publishedAt, textDisplay} = comment.snippet.topLevelComment.snippet;
+                    const {authorChannelId , authorProfileImageUrl,authorDisplayName, publishedAt, textDisplay, likeCount} = comment.snippet.topLevelComment.snippet;
 
                     let channelLogo, channel;
                     commentsChannelLogos.forEach(element => {
@@ -61,7 +58,7 @@ const Comments = ({comments, commentsChannelLogos}) => {
                     return(
                         <li key={comment.id}>
                             <a href="#" className={styles.channel_logo}>
-                                <img src={channelLogo} alt="channel logo"/>
+                                <img src={authorProfileImageUrl} alt="channel logo"/>
                             </a>
                             <div className={styles.metadata}>
                                 <div className={styles.txt_wrap}>
@@ -72,8 +69,9 @@ const Comments = ({comments, commentsChannelLogos}) => {
                                     <p>{textDisplay}</p>
                                 </div>
                                 <div className={styles.btn_wrap}>
-                                    <button>like</button>
-                                    <button>dislike</button>
+                                    <button><i className="fas fa-thumbs-up"></i></button>
+                                    <span>{likeCount}</span>
+                                    <button><i className="fas fa-thumbs-down"></i></button><span></span>
                                 </div>
                             </div>
                         </li>

@@ -7,7 +7,7 @@ const Header = ({onSearch}) => {
     return (
        <div className={styles.header}>
            <div className={styles.headerLeft}>
-                <button className={styles.guide}>guide</button>
+                <button className={styles.guide}><i className="fas fa-bars"></i></button>
                 <a href="https://www.youtube.com/">
                     <img className={styles.logo} src={logoImg} alt="Youtube logo"/>
                 </a>
@@ -15,9 +15,9 @@ const Header = ({onSearch}) => {
            </div>
            <Search onSearch={onSearch}/>
            <div className={styles.headerRight}>
-                <button className={styles.app}>App</button>
-                <button className={styles.setting}>Setting</button>
-                <button className={styles.notice}>Notice</button>
+                <button className={styles.app}><i className="fas fa-th"></i></button>
+                <button className={styles.setting}><i className="fas fa-ellipsis-v"></i></button>
+                <button className={styles.notice}><i className="fas fa-bell"></i></button>
            </div>
        </div>
     )

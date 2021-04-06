@@ -12,7 +12,7 @@ const VideoDetail = ({video, video : {snippet}, channelLogo, channel, comments, 
     const getPublishedTime = () => {
         let writeDay = new Date(snippet.publishedAt);
         let day = writeDay.getDate();
-        let month = writeDay.getMonth();
+        let month = (writeDay.getMonth()+1);
         let year = writeDay.getFullYear();
         let publishedTime = `${year}. ${month}. ${day}.`
 
@@ -37,6 +37,26 @@ const VideoDetail = ({video, video : {snippet}, channelLogo, channel, comments, 
        return result;
 
     }
+
+    const getLikeCount = (count) => {
+        let result;
+        
+        if(count.length <= 4) {
+            if(count.length === 0) {
+                result = 0;
+            }else if(0 < count.length <=3) {
+                result = count;
+            }
+            result = parseFloat(count / 1000).toFixed(1) + "천";
+        }else if( 4 < count.length < 9) {
+            result = parseFloat(count / 10000).toFixed(0) + "만";
+        }else if(count.length >= 9) {
+            console.log("억")
+        }
+       return result;
+
+    }
+
     const getDescription = () => {
         const description = snippet.description;
         let urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -57,10 +77,10 @@ const VideoDetail = ({video, video : {snippet}, channelLogo, channel, comments, 
                     <span>{getPublishedTime()}</span>
                 </div>
                 <div className={styles.count_right}>
-                    <button className={styles.btn_like}>{getSubscriberCount(video.statistics.likeCount)}</button>
-                    <button className={styles.btn_dislike}>{getSubscriberCount(video.statistics.dislikeCount)}</button>
-                    <button className={styles.btn_share}>공유</button>
-                    <button className={styles.btn_save}>저장</button>
+                    <button className={styles.btn_like}><i className="fas fa-thumbs-up"></i><span>{getLikeCount(video.statistics.likeCount)}</span></button>
+                    <button className={styles.btn_dislike}><i className="fas fa-thumbs-down"></i><span>{getLikeCount(video.statistics.dislikeCount)}</span></button>
+                    <button className={styles.btn_share}><i className="fas fa-share"></i><span>공유</span></button>
+                    <button className={styles.btn_save}><i className="far fa-plus-square"></i><span>저장</span></button>
                 </div>
             </div>
 
