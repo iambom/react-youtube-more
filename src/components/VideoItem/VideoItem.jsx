@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './VideoItem.module.css';
 
 const VideoItem = ({video, video : {snippet}, channel, channelLogo, onVideoClick, display}) => {
-    // console.log("VideoItem channelLogos : ",channelLogos)
+    // console.log("VideoItem : ",video)
     const getViewCount = () => {
         const viewCount = video.statistics.viewCount;
         const koreanUnits = ['', '만', '억', '조'];

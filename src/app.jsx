@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import styles from './app.module.css';
 import Header from './components/Header/Header';
 import SideMenu from './components/SideMenu/SideMenu';
@@ -6,6 +6,8 @@ import VideoDetail from './components/VideoDetail/VideoDetail';
 import VideoList from './components/VideoList/VideoList';
 
 function App({youtube}) {
+  const [nextPageToken, setNextPageToken] = useState('');
+
   const [videos, setVideos] = useState([]);
   const [channels, setChannels] = useState([]);
   const [comments, setComments] = useState([]);
@@ -27,21 +29,35 @@ function App({youtube}) {
 
   useEffect(() => {
     console.log("start")
-    youtube.mostPopular().then(videos => {
-      let channelIdList = [];
-      videos.forEach(element => {
-        channelIdList.push(element.snippet.channelId);
-      });
-      youtube.getChannelList(channelIdList).then(channels =>{
-        setChannels(channels)
-      });
-      setVideos(videos);
-    });
+    getMostPopular();
   }, [youtube]);
+
+  
+  const getMostPopular = (nextPageToken) => {
+    youtube.mostPopular(nextPageToken).then(result => {
+      setNextPageToken(result.nextPageToken);
+      let newVideos = result.items;
+      let newChannelIdList = [];
+      newVideos.forEach(element => {
+        newChannelIdList.push(element.snippet.channelId);
+      });
+
+      let newVideoList = videos.concat();
+      newVideoList = [...newVideoList, ...newVideos];
+      
+      youtube.getChannelList(newChannelIdList).then(newChannels =>{
+        let newChannelList = channels.concat();
+        newChannelList = [...newChannelList, ...newChannels]
+        setChannels(newChannelList);
+      });
+      setVideos(newVideoList);
+    });
+  }
 
   const search = (query) => {
     setSelectedVideo(null);
-    youtube.search(query).then(videos => {
+    youtube.search(query).then(result => {
+      let videos = result.items;
       let videoIdArray = [];
       videos.forEach(element => {
         if (element.id.kind === "youtube#video") {
@@ -61,7 +77,26 @@ function App({youtube}) {
     });
     
     window.scrollTo(0, 0)
-}
+  }
+
+  const infiniteScroll = () => {
+    let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+    let scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+    let clientHeight = document.documentElement.clientHeight;
+
+    if(scrollTop + clientHeight === scrollHeight) {
+      if(typeof nextPageToken === "undefined") return;
+      getMostPopular(nextPageToken);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", infiniteScroll);
+    return () => {
+      window.removeEventListener("scroll", infiniteScroll);
+    };
+  }, [nextPageToken, videos, channels]);
+
   return (
     <>
       <Header onSearch={search}/>
