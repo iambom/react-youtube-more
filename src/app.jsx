@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './app.module.css';
 import Header from './components/Header/Header';
 import SideMenu from './components/SideMenu/SideMenu';

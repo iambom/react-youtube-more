@@ -13,7 +13,7 @@ class Youtube{
 
         const response = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=kr&maxResults=24&part=statistics&key=${this.key}${pageToken}`, this.getRequestOptions);
         const result = await response.json();
-        console.log("처음", result, result.nextPageToken)
+        console.log(result)
         return result;
     }
 
