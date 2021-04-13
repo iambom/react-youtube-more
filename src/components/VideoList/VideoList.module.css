@@ -1,2 +1,3 @@
-.container{width:100%;padding:1em 4em;display: flex;flex-wrap: wrap;align-items: center;}
+.container{width:100%;padding-left: 4%;}
+.container ul{padding:1em 4em;display: flex;flex-wrap: wrap;align-items: center;}
 .grid{width:40%;padding:0.5em 3em 0 1em;}
