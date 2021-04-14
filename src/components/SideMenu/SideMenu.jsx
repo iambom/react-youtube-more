@@ -6,10 +6,10 @@ const SideMenu = ({display}) => {
     return (
         <div className={`${styles.container} ${displayType}`}>
             <button><i className="fas fa-house-user"></i><span>홈</span></button>
-            <button><i class="fas fa-compass"></i><span>탐색</span></button>
-            <button><i class="fab fa-youtube"></i><span>구독</span></button>
-            <button><i class="fas fa-archive"></i><span>보관함</span></button>
-            <button><i class="fas fa-history"></i><span>시청 기록</span></button>
+            <button><i className="fas fa-compass"></i><span>탐색</span></button>
+            <button><i className="fab fa-youtube"></i><span>구독</span></button>
+            <button><i className="fas fa-archive"></i><span>보관함</span></button>
+            <button><i className="fas fa-history"></i><span>시청 기록</span></button>
         </div>
     )
 }

@@ -6,10 +6,14 @@ import VideoDetail from './components/VideoDetail/VideoDetail';
 import VideoList from './components/VideoList/VideoList';
 
 function App({youtube}) {
-  const [nextPageToken, setNextPageToken] = useState('');
+  const [videoNextPageToken, setVideoNextPageToken] = useState('');
+  const [searchNextPageToken, setSearchNextPageToken] = useState('');
+  const [isSearched, setIsSearched] = useState(false);
 
   const [videos, setVideos] = useState([]);
+  const [searchedVideos, setSearchedVideos] = useState([]);
   const [channels, setChannels] = useState([]);
+  const [searchedChannels, setSearchedChannels] = useState([]);
   const [comments, setComments] = useState([]);
   const [channelLogos, setChannelLogos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -33,9 +37,9 @@ function App({youtube}) {
   }, [youtube]);
 
   
-  const getMostPopular = (nextPageToken) => {
-    youtube.mostPopular(nextPageToken).then(result => {
-      setNextPageToken(result.nextPageToken);
+  const getMostPopular = (videoNextPageToken) => {
+    youtube.mostPopular(videoNextPageToken).then(result => {
+      setVideoNextPageToken(result.nextPageToken);
       let newVideos = result.items;
       let newChannelIdList = [];
       newVideos.forEach(element => {
@@ -54,27 +58,61 @@ function App({youtube}) {
     });
   }
 
+  // const search = (query) => {
+  //   setSelectedVideo(null);
+  //   youtube.search(query).then(result => {
+  //     let videos = result.items;
+  //     let videoIdArray = [];
+  //     videos.forEach(element => {
+  //       if (element.id.kind === "youtube#video") {
+  //         videoIdArray.push(element.id.videoId);
+  //       } 
+  //     });
+  //     youtube.getVideoList(videoIdArray).then(videos => {
+  //       let channelIdList = [];
+  //       videos.forEach(element => {
+  //         channelIdList.push(element.snippet.channelId);
+  //       });
+  //       youtube.getChannelList(channelIdList).then(channels =>{
+  //         setChannels(channels)
+  //       });    
+  //       setIsSearched(true);
+  //       setVideos(videos);
+  //     });
+  //   });
+  //   console.log(isSearched)
+    
+  //   window.scrollTo(0, 0)
+  // }
+
   const search = (query) => {
+    console.log(query)
+    console.log("search");
     setSelectedVideo(null);
     youtube.search(query).then(result => {
-      let videos = result.items;
-      let videoIdArray = [];
-      videos.forEach(element => {
-        if (element.id.kind === "youtube#video") {
-          videoIdArray.push(element.id.videoId);
-        } 
+      setSearchNextPageToken(result.nextPageToken);
+      let newVideos = result.items;
+      let newVideoIdList = [];
+      newVideos.forEach(element => {
+        newVideoIdList.push(element.id.videoId);
       });
-      youtube.getVideoList(videoIdArray).then(videos => {
+
+      let newVideoList = searchedVideos.concat();
+      newVideoList = [...newVideoList, ...newVideos];
+
+      youtube.getVideoList(newVideoIdList).then(videos => {
         let channelIdList = [];
         videos.forEach(element => {
           channelIdList.push(element.snippet.channelId);
         });
         youtube.getChannelList(channelIdList).then(channels =>{
-          setChannels(channels)
-        });
-        setVideos(videos);
+          setSearchedChannels(channels)
+        });    
+        setIsSearched(true);
+        // setSearchedVideos(newVideoList);
       });
     });
+    console.log(isSearched)
     
     window.scrollTo(0, 0)
   }
@@ -85,8 +123,14 @@ function App({youtube}) {
     let clientHeight = document.documentElement.clientHeight;
 
     if(scrollTop + clientHeight === scrollHeight) {
-      if(typeof nextPageToken === "undefined") return;
-      getMostPopular(nextPageToken);
+      if(typeof videoNextPageToken === "undefined") return;
+      getMostPopular(videoNextPageToken);
+      
+      if(isSearched) {
+        console.log("검색 완");
+
+      }
+
     }
   };
 
@@ -95,7 +139,7 @@ function App({youtube}) {
     return () => {
       window.removeEventListener("scroll", infiniteScroll);
     };
-  }, [nextPageToken, videos, channels]);
+  }, [videoNextPageToken, videos, channels]);
 
   return (
     <>
@@ -110,7 +154,7 @@ function App({youtube}) {
             )
         }
         <SideMenu display={selectedVideo ? 'none' : 'block'}/>
-        <VideoList videos={videos} channels={channels} onVideoClick={selectVideo} display={selectedVideo ? 'grid' : 'list'}/>
+        <VideoList videos={isSearched ? searchedVideos : videos} channels={isSearched ? searchedChannels : channels} onVideoClick={selectVideo} display={selectedVideo ? 'grid' : 'list'}/>
       </div>
     </>
   )

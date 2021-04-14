@@ -6,8 +6,8 @@ const VideoList = ({videos, channels, onVideoClick, display}) => {
     // console.log(videos)
     const displayType = display === 'grid' ? styles.grid : styles.list;
     return (
-        <div className={styles.container}>
-            <ul className={`${displayType}`}>
+        <div className={`${styles.container} ${displayType}`}>
+            <ul>
                 {
                     videos.map(video => {
                         let channelLogo, channel;
