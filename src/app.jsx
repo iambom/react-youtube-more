@@ -6,17 +6,19 @@ import VideoDetail from './components/VideoDetail/VideoDetail';
 import VideoList from './components/VideoList/VideoList';
 
 function App({youtube}) {
-  const [videoNextPageToken, setVideoNextPageToken] = useState('');
-  const [searchNextPageToken, setSearchNextPageToken] = useState('');
-  const [isSearched, setIsSearched] = useState(false);
-
   const [videos, setVideos] = useState([]);
-  const [searchedVideos, setSearchedVideos] = useState([]);
   const [channels, setChannels] = useState([]);
-  const [searchedChannels, setSearchedChannels] = useState([]);
+  const [videoNextPageToken, setVideoNextPageToken] = useState('');
   const [comments, setComments] = useState([]);
   const [channelLogos, setChannelLogos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
+
+  const [isSearched, setIsSearched] = useState(false);
+  const [query, setQuery] = useState('');
+  const [searchedVideos, setSearchedVideos] = useState([]);
+  const [searchedChannels, setSearchedChannels] = useState([]);
+  const [searchNextPageToken, setSearchNextPageToken] = useState('');
+  
 
   const selectVideo = (video, channel, channelLogo) => {
     youtube.getCommentList(video.id).then(comments => {
@@ -74,48 +76,15 @@ function App({youtube}) {
   //         channelIdList.push(element.snippet.channelId);
   //       });
   //       youtube.getChannelList(channelIdList).then(channels =>{
-  //         setChannels(channels)
-  //       });    
-  //       setIsSearched(true);
-  //       setVideos(videos);
+  //         setSearchedChannels(channels)
+  //       });
+  //       setSearchedVideos(videos);
   //     });
-  //   });
-  //   console.log(isSearched)
+  //   });    
+  //   setIsSearched(true);
     
   //   window.scrollTo(0, 0)
   // }
-
-  const search = (query) => {
-    console.log(query)
-    console.log("search");
-    setSelectedVideo(null);
-    youtube.search(query).then(result => {
-      setSearchNextPageToken(result.nextPageToken);
-      let newVideos = result.items;
-      let newVideoIdList = [];
-      newVideos.forEach(element => {
-        newVideoIdList.push(element.id.videoId);
-      });
-
-      let newVideoList = searchedVideos.concat();
-      newVideoList = [...newVideoList, ...newVideos];
-
-      youtube.getVideoList(newVideoIdList).then(videos => {
-        let channelIdList = [];
-        videos.forEach(element => {
-          channelIdList.push(element.snippet.channelId);
-        });
-        youtube.getChannelList(channelIdList).then(channels =>{
-          setSearchedChannels(channels)
-        });    
-        setIsSearched(true);
-        // setSearchedVideos(newVideoList);
-      });
-    });
-    console.log(isSearched)
-    
-    window.scrollTo(0, 0)
-  }
 
   const infiniteScroll = () => {
     let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
@@ -128,7 +97,7 @@ function App({youtube}) {
       
       if(isSearched) {
         console.log("검색 완");
-
+        search(query, searchNextPageToken);
       }
 
     }
@@ -139,7 +108,44 @@ function App({youtube}) {
     return () => {
       window.removeEventListener("scroll", infiniteScroll);
     };
-  }, [videoNextPageToken, videos, channels]);
+  }, [videoNextPageToken, videos, channels, searchedVideos, searchedChannels, searchNextPageToken]);
+
+  
+
+  const search = (value, searchNextPageToken) => {
+    setSelectedVideo(null);
+    setQuery(value);
+
+    youtube.search(value, searchNextPageToken).then(result => {
+      setSearchNextPageToken(result.nextPageToken);
+      let videos = result.items;
+      let newVideoIdList = [];
+      videos.forEach(element => {
+        newVideoIdList.push(element.id.videoId);
+      });
+      youtube.getVideoList(newVideoIdList).then(videos => {
+        let newVideos = videos;
+      // setSearchedVideos(newVideos);
+      
+        let newVideoList = searchedVideos.concat();
+        newVideoList = [...newVideoList, ...newVideos];
+
+        let channelIdList = [];
+        videos.forEach(element => {
+          channelIdList.push(element.snippet.channelId);
+        });
+
+        youtube.getChannelList(channelIdList).then(channels =>{
+          let newChannelList = searchedChannels.concat();
+          newChannelList = [...newChannelList, ...channels]
+          setSearchedChannels(newChannelList)
+        });    
+        setSearchedVideos(newVideoList);
+      });
+    });
+    setIsSearched(true);
+    // if(!isSearched) window.scrollTo(0, 0);
+  }
 
   return (
     <>
@@ -154,7 +160,7 @@ function App({youtube}) {
             )
         }
         <SideMenu display={selectedVideo ? 'none' : 'block'}/>
-        <VideoList videos={isSearched ? searchedVideos : videos} channels={isSearched ? searchedChannels : channels} onVideoClick={selectVideo} display={selectedVideo ? 'grid' : 'list'}/>
+        <VideoList videos={!isSearched ? videos : searchedVideos} channels={!isSearched ? channels : searchedChannels} onVideoClick={selectVideo} display={selectedVideo ? 'grid' : 'list'}/>
       </div>
     </>
   )

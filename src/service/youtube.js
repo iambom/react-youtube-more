@@ -8,12 +8,10 @@ class Youtube{
     }
 
     async mostPopular(nextPageToken) {
-        console.log(nextPageToken)
         let pageToken = (typeof nextPageToken === "undefined") ? "" : `&pageToken=${nextPageToken}`;
 
         const response = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=kr&maxResults=24&part=statistics&key=${this.key}${pageToken}`, this.getRequestOptions);
         const result = await response.json();
-        console.log(result)
         return result;
     }
 
