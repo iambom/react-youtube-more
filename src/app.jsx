@@ -60,32 +60,6 @@ function App({youtube}) {
     });
   }
 
-  // const search = (query) => {
-  //   setSelectedVideo(null);
-  //   youtube.search(query).then(result => {
-  //     let videos = result.items;
-  //     let videoIdArray = [];
-  //     videos.forEach(element => {
-  //       if (element.id.kind === "youtube#video") {
-  //         videoIdArray.push(element.id.videoId);
-  //       } 
-  //     });
-  //     youtube.getVideoList(videoIdArray).then(videos => {
-  //       let channelIdList = [];
-  //       videos.forEach(element => {
-  //         channelIdList.push(element.snippet.channelId);
-  //       });
-  //       youtube.getChannelList(channelIdList).then(channels =>{
-  //         setSearchedChannels(channels)
-  //       });
-  //       setSearchedVideos(videos);
-  //     });
-  //   });    
-  //   setIsSearched(true);
-    
-  //   window.scrollTo(0, 0)
-  // }
-
   const infiniteScroll = () => {
     let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
     let scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
@@ -114,21 +88,32 @@ function App({youtube}) {
 
   const search = (value, searchNextPageToken) => {
     setSelectedVideo(null);
-    setQuery(value);
 
+    if(query !== value) {
+      console.log("새로운 검색", value)
+      setSearchedVideos([]);
+      console.log("초기화 ", searchedVideos)
+      setQuery(value);
+    }
+
+    // setQuery(value);
     youtube.search(value, searchNextPageToken).then(result => {
+      // console.log("검색 결과 ", result)
       setSearchNextPageToken(result.nextPageToken);
       let videos = result.items;
       let newVideoIdList = [];
       videos.forEach(element => {
         newVideoIdList.push(element.id.videoId);
       });
+      
       youtube.getVideoList(newVideoIdList).then(videos => {
         let newVideos = videos;
-      // setSearchedVideos(newVideos);
-      
         let newVideoList = searchedVideos.concat();
+        console.log("concat 후 ", newVideoList)
         newVideoList = [...newVideoList, ...newVideos];
+
+        console.log("최종 ",newVideoList)
+        setSearchedVideos(newVideoList);
 
         let channelIdList = [];
         videos.forEach(element => {
@@ -139,8 +124,8 @@ function App({youtube}) {
           let newChannelList = searchedChannels.concat();
           newChannelList = [...newChannelList, ...channels]
           setSearchedChannels(newChannelList)
-        });    
-        setSearchedVideos(newVideoList);
+        });
+        // setSearchedVideos(newVideoList);
       });
     });
     setIsSearched(true);
