@@ -65,13 +65,13 @@ function App({youtube}) {
     let scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
     let clientHeight = document.documentElement.clientHeight;
 
-    if(scrollTop + clientHeight === scrollHeight) {
-      if(typeof videoNextPageToken === "undefined") return;
-      getMostPopular(videoNextPageToken);
-      
+    if(scrollTop + clientHeight >= scrollHeight) {
       if(isSearched) {
-        console.log("검색 완");
+        if(typeof searchNextPageToken === "undefined") return;
         search(query, searchNextPageToken);
+      } else {
+        if(typeof videoNextPageToken === "undefined") return;
+        getMostPopular(videoNextPageToken);
       }
 
     }
@@ -83,23 +83,11 @@ function App({youtube}) {
       window.removeEventListener("scroll", infiniteScroll);
     };
   }, [videoNextPageToken, videos, channels, searchedVideos, searchedChannels, searchNextPageToken]);
-
   
-
   const search = (value, searchNextPageToken) => {
     setSelectedVideo(null);
 
-    if(query !== value) {
-      console.log("새로운 검색", value)
-      setSearchedVideos([]);
-      console.log("초기화 ", searchedVideos)
-      setQuery(value);
-    }
-
-    // setQuery(value);
     youtube.search(value, searchNextPageToken).then(result => {
-      // console.log("검색 결과 ", result)
-      setSearchNextPageToken(result.nextPageToken);
       let videos = result.items;
       let newVideoIdList = [];
       videos.forEach(element => {
@@ -107,29 +95,28 @@ function App({youtube}) {
       });
       
       youtube.getVideoList(newVideoIdList).then(videos => {
-        let newVideos = videos;
-        let newVideoList = searchedVideos.concat();
-        console.log("concat 후 ", newVideoList)
-        newVideoList = [...newVideoList, ...newVideos];
-
-        console.log("최종 ",newVideoList)
-        setSearchedVideos(newVideoList);
-
         let channelIdList = [];
+        let newVideos = videos;
+        let newVideoList = query !== value ? [] : searchedVideos.concat();
+        if(query !== value) window.scrollTo(0, 0);
+
         videos.forEach(element => {
           channelIdList.push(element.snippet.channelId);
         });
 
+        newVideoList = [...newVideoList, ...newVideos];
+        setSearchedVideos(newVideoList);
+
         youtube.getChannelList(channelIdList).then(channels =>{
-          let newChannelList = searchedChannels.concat();
+          let newChannelList = query !== value ? [] : searchedChannels.concat();
           newChannelList = [...newChannelList, ...channels]
           setSearchedChannels(newChannelList)
         });
-        // setSearchedVideos(newVideoList);
       });
+      setSearchNextPageToken(result.nextPageToken);
     });
+    setQuery(value);
     setIsSearched(true);
-    // if(!isSearched) window.scrollTo(0, 0);
   }
 
   return (
