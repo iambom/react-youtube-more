@@ -39,7 +39,7 @@ const Comments = ({comments, commentsChannelLogos}) => {
             }
         }
         return publishedTime;
-    }
+    };
     
     return(
         <ul className={styles.container}>
@@ -80,6 +80,6 @@ const Comments = ({comments, commentsChannelLogos}) => {
             }
         </ul>
     )
-}
+};
 
 export default Comments;

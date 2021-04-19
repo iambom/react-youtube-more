@@ -6,6 +6,7 @@ import VideoDetail from './components/VideoDetail/VideoDetail';
 import VideoList from './components/VideoList/VideoList';
 
 function App({youtube}) {
+  console.log(youtube);
   const [videos, setVideos] = useState([]);
   const [channels, setChannels] = useState([]);
   const [videoNextPageToken, setVideoNextPageToken] = useState('');
@@ -26,15 +27,15 @@ function App({youtube}) {
       comments.forEach(element => {
         channelIdList.push(element.snippet.topLevelComment.snippet.authorChannelId.value);
       });
-      youtube.getChannelList(channelIdList).then(channels => setChannelLogos(channels))
+      youtube.getChannelList(channelIdList).then(channels => setChannelLogos(channels));
       setComments(comments);
-    })
+    });
     setSelectedVideo({video, channel, channelLogo});
     window.scrollTo(0, 0)
-  }
+  };
 
   useEffect(() => {
-    console.log("start")
+    console.log("start");
     getMostPopular();
   }, [youtube]);
 
@@ -53,12 +54,12 @@ function App({youtube}) {
       
       youtube.getChannelList(newChannelIdList).then(newChannels =>{
         let newChannelList = channels.concat();
-        newChannelList = [...newChannelList, ...newChannels]
+        newChannelList = [...newChannelList, ...newChannels];
         setChannels(newChannelList);
       });
       setVideos(newVideoList);
     });
-  }
+  };
 
   const infiniteScroll = () => {
     let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
@@ -109,7 +110,7 @@ function App({youtube}) {
 
         youtube.getChannelList(channelIdList).then(channels =>{
           let newChannelList = query !== value ? [] : searchedChannels.concat();
-          newChannelList = [...newChannelList, ...channels]
+          newChannelList = [...newChannelList, ...channels];
           setSearchedChannels(newChannelList)
         });
       });
@@ -117,7 +118,7 @@ function App({youtube}) {
     });
     setQuery(value);
     setIsSearched(true);
-  }
+  };
 
   return (
     <>

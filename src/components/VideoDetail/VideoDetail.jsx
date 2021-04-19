@@ -1,46 +1,64 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import { useParams } from 'react-router-dom';
 import Comments from '../Comments/Comments';
 import styles from './VideoDetail.module.css';
 
-const VideoDetail = ({video, video : {snippet}, channelLogo, channel, comments, commentsChannelLogos}) => {
+const VideoDetail = ({youtube}) => {
+    const { videoId } = useParams();
+    console.log("video detail : ", videoId, youtube);
+
+    const [video, setVideo] = useState([]);
+
+    useEffect(() => {
+        getVideo();
+    }, []);
+
+    const getVideo = () => {
+        let data = '';
+        youtube.getVideoList(videoId).then(video => {
+            data = video[0];
+            setVideo(data);
+        });
+        console.log(video);
+    };
+
     const getViewCount = (count) => {
         const result = count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        
         return result;
-    }
+    };
 
     const getPublishedTime = () => {
-        let writeDay = new Date(snippet.publishedAt);
+        let writeDay = new Date(video.snippet.publishedAt);
         let day = writeDay.getDate();
         let month = (writeDay.getMonth()+1);
         let year = writeDay.getFullYear();
-        let publishedTime = `${year}. ${month}. ${day}.`
+        let publishedTime = `${year}. ${month}. ${day}.`;
 
         return publishedTime;
-    }
-
-    const getSubscriberCount = (count) => {
-        let result;
-        
-        if(count.length <= 4) {
-            result = count / 1000 + "천";
-            if(count.length === 0) {
-                result = 0;
-            }else if(0 < count.length <=3) {
-                result = count;
-            }
-        }else if( 4 < count.length < 9) {
-            result = count / 10000 + "만";
-        }else if(count.length >= 9) {
-            console.log("억")
-        }
-       return result;
-
-    }
-
+    };
+    //
+    // const getSubscriberCount = (count) => {
+    //     let result;
+    //
+    //     if(count.length <= 4) {
+    //         result = count / 1000 + "천";
+    //         if(count.length === 0) {
+    //             result = 0;
+    //         }else if(0 < count.length <=3) {
+    //             result = count;
+    //         }
+    //     }else if( 4 < count.length < 9) {
+    //         result = count / 10000 + "만";
+    //     }else if(count.length >= 9) {
+    //         console.log("억")
+    //     }
+    //    return result;
+    //
+    // }
+    //
     const getLikeCount = (count) => {
         let result;
-        
+
         if(count.length <= 4) {
             if(count.length === 0) {
                 result = 0;
@@ -55,22 +73,22 @@ const VideoDetail = ({video, video : {snippet}, channelLogo, channel, comments, 
         }
        return result;
 
-    }
-
-    const getDescription = () => {
-        const description = snippet.description;
-        let urlRegex = /(https?:\/\/[^\s]+)/g;
-        return description.replace(urlRegex, (url) => {
-            return `<a href=${url}>${url}</a>`
-        })
-    }
+    };
+    //
+    // const getDescription = () => {
+    //     const description = video.snippet.description;
+    //     let urlRegex = /(https?:\/\/[^\s]+)/g;
+    //     return description.replace(urlRegex, (url) => {
+    //         return `<a href=${url}>${url}</a>`
+    //     })
+    // }
     
     return(
         <div className={styles.container}>
             <div className={styles.iframe_wrap}>
-                <iframe src={`https://www.youtube.com/embed/${video.id}`} title="youtube video player" type="text/html" frameBorder="0" allowFullScreen></iframe>
+                <iframe src={`https://www.youtube.com/embed/${videoId}`} title="youtube video player" type="text/html" frameBorder="0" allowFullScreen></iframe>
             </div>
-            <p className={styles.title}>{snippet.title}</p>
+            <p className={styles.title}>{video.snippet.title}</p>
             <div className={styles.count_wrap}>
                 <div className={styles.count_left}>
                     <span>조회수 {getViewCount(video.statistics.viewCount)}회</span>
@@ -84,31 +102,31 @@ const VideoDetail = ({video, video : {snippet}, channelLogo, channel, comments, 
                 </div>
             </div>
 
-            <div className={styles.channel_container}>
-                <div className={styles.channel_wrap}>
-                    <a href="#" className='channelLogo'>
-                        <img src={channelLogo} alt="channel logo"/>
-                    </a>
-                    <div className={styles.channel_info}>
-                        <a href="" className={styles.channel_title}>
-                            {snippet.channelTitle}
-                        </a>
-                        {
-                            channel.statistics.hiddenSubscriberCount || (
-                                <span>구독자 {getSubscriberCount(channel.statistics.subscriberCount)}명</span>
-                            )
-                        }
-                    </div>
-                    <button>구독</button>
-                </div>
-                
-                <div className={styles.description}  dangerouslySetInnerHTML={ {__html:getDescription()}}></div>
-            </div>
+            {/*<div className={styles.channel_container}>*/}
+            {/*    <div className={styles.channel_wrap}>*/}
+            {/*        <a href="#" className='channelLogo'>*/}
+            {/*            <img src={channelLogo} alt="channel logo"/>*/}
+            {/*        </a>*/}
+            {/*        <div className={styles.channel_info}>*/}
+            {/*            <a href="" className={styles.channel_title}>*/}
+            {/*                {video.snippet.channelTitle}*/}
+            {/*            </a>*/}
+            {/*            {*/}
+            {/*                channel.statistics.hiddenSubscriberCount || (*/}
+            {/*                    <span>구독자 {getSubscriberCount(channel.statistics.subscriberCount)}명</span>*/}
+            {/*                )*/}
+            {/*            }*/}
+            {/*        </div>*/}
+            {/*        <button>구독</button>*/}
+            {/*    </div>*/}
 
-            <div className={styles.comment_wrap}>
-                <p>댓글 {getViewCount(video.statistics.commentCount)}개</p>
-                <Comments comments={comments} commentsChannelLogos={commentsChannelLogos}/>
-            </div>
+            {/*    <div className={styles.description}  dangerouslySetInnerHTML={ {__html:getDescription()}}></div>*/}
+            {/*</div>*/}
+
+            {/*<div className={styles.comment_wrap}>*/}
+            {/*    <p>댓글 {getViewCount(video.statistics.commentCount)}개</p>*/}
+            {/*    <Comments comments={comments} commentsChannelLogos={commentsChannelLogos}/>*/}
+            {/*</div>*/}
         </div>
     )
 }

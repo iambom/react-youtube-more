@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './VideoItem.module.css';
+import { Link } from 'react-router-dom';
 
 const VideoItem = ({video, video : {snippet}, channel, channelLogo, onVideoClick, display}) => {
     // console.log("VideoItem : ",video)
@@ -17,7 +18,7 @@ const VideoItem = ({video, video : {snippet}, channel, channelLogo, onVideoClick
             division = Math.pow(unit, ++index);
         }
         return answer;
-    }
+    };
 
     const getPublishedTime = () => {
         let now = new Date(); 
@@ -55,26 +56,27 @@ const VideoItem = ({video, video : {snippet}, channel, channelLogo, onVideoClick
             }
         }
         return publishedTime;
-    }
+    };
     
     const displayType = display === 'list' ? styles.list : styles.grid;
     return (
-        <li className={`${styles.container} ${displayType}`} onClick={() => onVideoClick(video, channel, channelLogo)}>
-            <div className={styles.img_wrap}>
-                <img src={snippet.thumbnails.medium.url} alt="video thumbnail"/>
-            </div>
-            <div className={styles.metadata}>
-                <img src={channelLogo} alt="channel logo"/>
-                <div className={styles.txt}>
-                    <p className={styles.title}>{snippet.title}</p>
-                    <p className={styles.channel_title}>{snippet.channelTitle}</p>
-                    <span className={styles.view_count}>조회수 {getViewCount()}회</span>
-                    <span>{getPublishedTime()}</span>
-                    <span></span>
+        <li className={`${styles.container} ${displayType}`}>
+            <Link to={`/video/${video.id}`}>
+                <div className={styles.img_wrap}>
+                    <img src={snippet.thumbnails.medium.url} alt="video thumbnail"/>
                 </div>
-            </div>
+                <div className={styles.metadata}>
+                    <img src={channelLogo} alt="channel logo"/>
+                    <div className={styles.txt}>
+                        <p className={styles.title}>{snippet.title}</p>
+                        <p className={styles.channel_title}>{snippet.channelTitle}</p>
+                        <span className={styles.view_count}>조회수 {getViewCount()}회</span>
+                        <span>{getPublishedTime()}</span>
+                    </div>
+                </div>
+            </Link>
         </li>
     );
-}
+};
 
 export default VideoItem;
