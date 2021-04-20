@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import VideoItem from '../VideoItem/VideoItem';
 import styles from './VideoList.module.css';
 
-const VideoList = ({videos, channels, onVideoClick, display}) => {
+const VideoList = ({videos, channels, display}) => {
     const displayType = display === 'grid' ? styles.grid : styles.list;
 
     const [videoList, setVideoList] = useState([]);
@@ -12,9 +12,6 @@ const VideoList = ({videos, channels, onVideoClick, display}) => {
 
     useEffect(() => {
       if(display === 'grid') {
-        console.log("grid");
-
-        // let newList = videoList.concat();
         const newList = videoList.splice(0, 24);
         console.log("splice", newList);
         setVideoList(newList);
@@ -34,7 +31,7 @@ const VideoList = ({videos, channels, onVideoClick, display}) => {
                             }
                         });
                         return (
-                            <VideoItem key={`${video.id}${index}`} video={video} channel={channel} channelLogo={channelLogo} onVideoClick={onVideoClick} display={display}/>
+                            <VideoItem key={`${video.id}${index}`} video={video} channel={channel} channelLogo={channelLogo} display={display}/>
                         )
                     })
                 }

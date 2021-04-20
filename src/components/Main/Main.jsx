@@ -6,34 +6,12 @@ import SideMenu from "../SideMenu/SideMenu";
 import VideoList from "../VideoList/VideoList";
 
 const Main = ({ youtube }) => {
-  // console.log(youtube)
   const [videos, setVideos] = useState([]);
   const [channels, setChannels] = useState([]);
   const [videoNextPageToken, setVideoNextPageToken] = useState('');
-  const [comments, setComments] = useState([]);
-  const [channelLogos, setChannelLogos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
-  const [isSearched, setIsSearched] = useState(false);
-  const [searchedVideos, setSearchedVideos] = useState([]);
-  const [searchedChannels, setSearchedChannels] = useState([]);
-
-  const selectVideo = (video, channel, channelLogo) => {
-    youtube.getCommentList(video.id).then(comments => {
-      let channelIdList = [];
-      comments.forEach(element => {
-        channelIdList.push(element.snippet.topLevelComment.snippet.authorChannelId.value);
-      });
-      youtube.getChannelList(channelIdList).then(channels => setChannelLogos(channels));
-      setComments(comments);
-    });
-    setSelectedVideo({video, channel, channelLogo});
-    window.scrollTo(0, 0);
-  };
-
-
   useEffect(() => {
-    console.log("start");
     getMostPopular();
   }, [youtube]);
 
@@ -58,20 +36,11 @@ const Main = ({ youtube }) => {
     });
   };
 
-  const search = () => {
-    console.log('search')
-  };
   return (
     <>
-      <Header onSearch={search}/>
       <div id="wrap">
-        {
-          selectedVideo &&  (
-              <VideoDetail youtube={youtube}/>
-          )
-        }
         <SideMenu display={selectedVideo ? 'none' : 'block'}/>
-        <VideoList videos={!isSearched ? videos : searchedVideos} channels={!isSearched ? channels : searchedChannels} onVideoClick={selectVideo} display={selectedVideo ? 'grid' : 'list'}/>
+        <VideoList videos={videos} channels={channels} display={'list'}/>
       </div>
     </>
   )

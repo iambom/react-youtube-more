@@ -2,25 +2,9 @@ import React, {useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import Comments from '../Comments/Comments';
 import styles from './VideoDetail.module.css';
+import VideoList from "../VideoList/VideoList";
 
-const VideoDetail = ({youtube}) => {
-    const { videoId } = useParams();
-    console.log("video detail : ", videoId, youtube);
-
-    const [video, setVideo] = useState([]);
-
-    useEffect(() => {
-        getVideo();
-    }, []);
-
-    const getVideo = () => {
-        let data = '';
-        youtube.getVideoList(videoId).then(video => {
-            data = video[0];
-            setVideo(data);
-        });
-        console.log(video);
-    };
+const VideoDetail = ({video}) => {
 
     const getViewCount = (count) => {
         const result = count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -74,19 +58,19 @@ const VideoDetail = ({youtube}) => {
        return result;
 
     };
-    //
-    // const getDescription = () => {
-    //     const description = video.snippet.description;
-    //     let urlRegex = /(https?:\/\/[^\s]+)/g;
-    //     return description.replace(urlRegex, (url) => {
-    //         return `<a href=${url}>${url}</a>`
-    //     })
-    // }
+
+    const getDescription = () => {
+        const description = video.snippet.description;
+        let urlRegex = /(https?:\/\/[^\s]+)/g;
+        return description.replace(urlRegex, (url) => {
+            return `<a href=${url}>${url}</a>`
+        })
+    };
     
     return(
         <div className={styles.container}>
             <div className={styles.iframe_wrap}>
-                <iframe src={`https://www.youtube.com/embed/${videoId}`} title="youtube video player" type="text/html" frameBorder="0" allowFullScreen></iframe>
+                <iframe src={`https://www.youtube.com/embed/${video.id}`} title="youtube video player" type="text/html" frameBorder="0" allowFullScreen></iframe>
             </div>
             <p className={styles.title}>{video.snippet.title}</p>
             <div className={styles.count_wrap}>
@@ -102,7 +86,7 @@ const VideoDetail = ({youtube}) => {
                 </div>
             </div>
 
-            {/*<div className={styles.channel_container}>*/}
+            <div className={styles.channel_container}>
             {/*    <div className={styles.channel_wrap}>*/}
             {/*        <a href="#" className='channelLogo'>*/}
             {/*            <img src={channelLogo} alt="channel logo"/>*/}
@@ -120,15 +104,15 @@ const VideoDetail = ({youtube}) => {
             {/*        <button>구독</button>*/}
             {/*    </div>*/}
 
-            {/*    <div className={styles.description}  dangerouslySetInnerHTML={ {__html:getDescription()}}></div>*/}
+                <div className={styles.description}  dangerouslySetInnerHTML={ {__html:getDescription()}}></div>
             {/*</div>*/}
 
             {/*<div className={styles.comment_wrap}>*/}
             {/*    <p>댓글 {getViewCount(video.statistics.commentCount)}개</p>*/}
             {/*    <Comments comments={comments} commentsChannelLogos={commentsChannelLogos}/>*/}
-            {/*</div>*/}
+            </div>
         </div>
     )
-}
+};
 
 export default VideoDetail;
