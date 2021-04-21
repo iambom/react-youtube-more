@@ -7,11 +7,13 @@ import styles from './SelectedVideo.module.css';
 const SelectedVideo = ({youtube}) => {
 
   const { videoId } = useParams();
-  console.log("video detail : ", videoId, youtube);
-
-  const [selectedVideo, setSelectedVideo] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [preVideoId, setPreVideoId] = useState('');
+  const [selectedVideo, setSelectedVideo] = useState([]);
+  const [selectedVideoChannel, setSelectedVideoChannel] = useState('');
+  const [comments, setComments] = useState([]);
+  const [commentsChannelLogos, setCommentsChannelLogos] = useState([]);
 
   const [videoList, setVideoList] = useState([]);
   const [channels, setChannels] = useState([]);
@@ -19,18 +21,34 @@ const SelectedVideo = ({youtube}) => {
 
   useEffect(() => {
     getSelectedVideo();
-    getVideoList();
-  }, [videoId, youtube]);
+  }, [videoId]);
 
   const getSelectedVideo = () => {
     let data = '';
+    let channelId = '';
+    let channelData = '';
     youtube.getVideoList(videoId).then(video => {
       data = video[0];
+      channelId = data.snippet.channelId;
       setSelectedVideo(data);
-      setIsLoading(true);
+      youtube.getChannelList(channelId).then(channel => {
+        channelData = channel[0];
+        setSelectedVideoChannel(channelData);
+      });
+      youtube.getCommentList(videoId).then(comments => {
+        let channelIdList = [];
+        comments.forEach(element => {
+          channelIdList.push(element.snippet.topLevelComment.snippet.authorChannelId.value);
+        });
+        youtube.getChannelList(channelIdList).then(channels => setCommentsChannelLogos(channels));
+        setComments(comments);
+      });
+      setPreVideoId(videoId);
+      getVideoList();
+      window.scrollTo(0, 0);
     });
-    window.scrollTo(0, 0);
   };
+
 
   const getVideoList = (videoNextPageToken) => {
     youtube.mostPopular(videoNextPageToken).then(result => {
@@ -40,26 +58,23 @@ const SelectedVideo = ({youtube}) => {
       newVideos.forEach(element => {
         newChannelIdList.push(element.snippet.channelId);
       });
-      setVideoList([]);
-      console.log(videoList);
-      let newVideoList = videoList.concat();
-      console.log(newVideoList)
+      let newVideoList = preVideoId !== videoId ? [] : videoList.concat();
       newVideoList = [...newVideoList, ...newVideos];
 
       youtube.getChannelList(newChannelIdList).then(newChannels =>{
         let newChannelList = channels.concat();
         newChannelList = [...newChannelList, ...newChannels];
         setChannels(newChannelList);
+        setIsLoading(true);
       });
       setVideoList(newVideoList);
-      console.log("비디오리스트 ",videoList);
     });
   };
 
   return(
     isLoading &&
     <div className={styles.container}>
-      <VideoDetail video={selectedVideo}/>
+      <VideoDetail video={selectedVideo} channel={selectedVideoChannel} comments={comments} commentsChannelLogos={commentsChannelLogos}/>
       <VideoList display={'grid'} videos={videoList} channels={channels}/>
     </div>
   )

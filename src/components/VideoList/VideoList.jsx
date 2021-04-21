@@ -5,7 +5,7 @@ import styles from './VideoList.module.css';
 const VideoList = ({videos, channels, display}) => {
     const displayType = display === 'grid' ? styles.grid : styles.list;
 
-    const [videoList, setVideoList] = useState([]);
+    const [videoList, setVideoList] = useState(videos);
     useEffect(() => {
       setVideoList(videos);
     }, [videos]);
@@ -18,20 +18,20 @@ const VideoList = ({videos, channels, display}) => {
       }
     },[display]);
 
+
     return (
         <div className={`${styles.container} ${displayType}`}>
             <ul>
                 {
                   videoList.map((video, index) => {
-                        let channelLogo, channel;
+                        let channelLogo;
                         channels.forEach(element => {
                             if(element.id === video.snippet.channelId) {
-                                channel = element;
                                 channelLogo = element.snippet.thumbnails.default.url;
                             }
                         });
                         return (
-                            <VideoItem key={`${video.id}${index}`} video={video} channel={channel} channelLogo={channelLogo} display={display}/>
+                            <VideoItem key={`${video.id}${index}`} video={video} channelLogo={channelLogo} display={display}/>
                         )
                     })
                 }

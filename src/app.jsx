@@ -74,7 +74,6 @@ function App({youtube}) {
         if(typeof videoNextPageToken === "undefined") return;
         getMostPopular(videoNextPageToken);
       }
-
     }
   };
 

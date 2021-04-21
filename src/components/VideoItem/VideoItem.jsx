@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './VideoItem.module.css';
 import { Link } from 'react-router-dom';
 
-const VideoItem = ({video, video : {snippet}, channel, channelLogo, onVideoClick, display}) => {
+const VideoItem = ({video, video : {snippet}, channelLogo, display}) => {
     // console.log("VideoItem : ",video)
     const getViewCount = () => {
         const viewCount = video.statistics.viewCount;

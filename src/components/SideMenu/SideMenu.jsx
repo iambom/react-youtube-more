@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './SideMenu.module.css';
 
-const SideMenu = ({display}) => {
-    const displayType = display === 'none' ? styles.none : styles.block;
+const SideMenu = () => {
+    // const displayType = display === 'none' ? styles.none : styles.block;
     return (
-        <div className={`${styles.container} ${displayType}`}>
+        <div className={styles.container}>
             <button><i className="fas fa-house-user"></i><span>홈</span></button>
             <button><i className="fas fa-compass"></i><span>탐색</span></button>
             <button><i className="fab fa-youtube"></i><span>구독</span></button>
@@ -12,6 +12,6 @@ const SideMenu = ({display}) => {
             <button><i className="fas fa-history"></i><span>시청 기록</span></button>
         </div>
     )
-}
+};
 
 export default SideMenu;

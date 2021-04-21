@@ -1,11 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
 import Comments from '../Comments/Comments';
 import styles from './VideoDetail.module.css';
-import VideoList from "../VideoList/VideoList";
 
-const VideoDetail = ({video}) => {
-
+const VideoDetail = ({video, channel, comments, commentsChannelLogos}) => {
+    console.log("VideoDetail ",channel);
     const getViewCount = (count) => {
         const result = count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         return result;
@@ -20,26 +18,26 @@ const VideoDetail = ({video}) => {
 
         return publishedTime;
     };
-    //
-    // const getSubscriberCount = (count) => {
-    //     let result;
-    //
-    //     if(count.length <= 4) {
-    //         result = count / 1000 + "천";
-    //         if(count.length === 0) {
-    //             result = 0;
-    //         }else if(0 < count.length <=3) {
-    //             result = count;
-    //         }
-    //     }else if( 4 < count.length < 9) {
-    //         result = count / 10000 + "만";
-    //     }else if(count.length >= 9) {
-    //         console.log("억")
-    //     }
-    //    return result;
-    //
-    // }
-    //
+
+    const getSubscriberCount = (count) => {
+        let result;
+
+        if(count.length <= 4) {
+            result = count / 1000 + "천";
+            if(count.length === 0) {
+                result = 0;
+            }else if(0 < count.length <=3) {
+                result = count;
+            }
+        }else if( 4 < count.length < 9) {
+            result = count / 10000 + "만";
+        }else if(count.length >= 9) {
+            console.log("억")
+        }
+       return result;
+
+    };
+
     const getLikeCount = (count) => {
         let result;
 
@@ -87,29 +85,29 @@ const VideoDetail = ({video}) => {
             </div>
 
             <div className={styles.channel_container}>
-            {/*    <div className={styles.channel_wrap}>*/}
-            {/*        <a href="#" className='channelLogo'>*/}
-            {/*            <img src={channelLogo} alt="channel logo"/>*/}
-            {/*        </a>*/}
-            {/*        <div className={styles.channel_info}>*/}
-            {/*            <a href="" className={styles.channel_title}>*/}
-            {/*                {video.snippet.channelTitle}*/}
-            {/*            </a>*/}
-            {/*            {*/}
-            {/*                channel.statistics.hiddenSubscriberCount || (*/}
-            {/*                    <span>구독자 {getSubscriberCount(channel.statistics.subscriberCount)}명</span>*/}
-            {/*                )*/}
-            {/*            }*/}
-            {/*        </div>*/}
-            {/*        <button>구독</button>*/}
-            {/*    </div>*/}
+                <div className={styles.channel_wrap}>
+                    <a href="#" className='channelLogo'>
+                        <img src={channel.snippet.thumbnails.default.url} alt="channel logo"/>
+                    </a>
+                    <div className={styles.channel_info}>
+                        <a href="" className={styles.channel_title}>
+                            {video.snippet.channelTitle}
+                        </a>
+                        {
+                            channel.statistics.hiddenSubscriberCount || (
+                                <span>구독자 {getSubscriberCount(channel.statistics.subscriberCount)}명</span>
+                            )
+                        }
+                    </div>
+                    <button>구독</button>
+                </div>
 
                 <div className={styles.description}  dangerouslySetInnerHTML={ {__html:getDescription()}}></div>
-            {/*</div>*/}
+            </div>
 
-            {/*<div className={styles.comment_wrap}>*/}
-            {/*    <p>댓글 {getViewCount(video.statistics.commentCount)}개</p>*/}
-            {/*    <Comments comments={comments} commentsChannelLogos={commentsChannelLogos}/>*/}
+            <div className={styles.comment_wrap}>
+                <p>댓글 {getViewCount(video.statistics.commentCount)}개</p>
+                <Comments comments={comments} commentsChannelLogos={commentsChannelLogos}/>
             </div>
         </div>
     )

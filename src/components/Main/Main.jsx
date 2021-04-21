@@ -38,10 +38,8 @@ const Main = ({ youtube }) => {
 
   return (
     <>
-      <div id="wrap">
-        <SideMenu display={selectedVideo ? 'none' : 'block'}/>
-        <VideoList videos={videos} channels={channels} display={'list'}/>
-      </div>
+      <SideMenu />
+      <VideoList videos={videos} channels={channels} display={'list'}/>
     </>
   )
 };
