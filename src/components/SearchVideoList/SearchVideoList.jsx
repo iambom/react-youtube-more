@@ -44,9 +44,6 @@ const SearchVideoList = ({youtube}) => {
         console.log(videos);
         let channelIdList = [];
         let newVideos = videos;
-        console.log(typeof query)
-        console.log(typeof preQuery)
-        console.log(query === preQuery)
         let newVideoList = [];
         if(preQuery === query) {
           console.log("newVideoList ", newVideoList);

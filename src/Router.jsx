@@ -1,11 +1,10 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Youtube from "./service/youtube";
 import Main from './components/Main/Main';
 import Header from "./components/Header/Header";
 import SelectedVideo from "./components/SelectedVideo/SelectedVideo";
 import SearchVideoList from "./components/SearchVideoList/SearchVideoList";
-import SideMenu from "./components/SideMenu/SideMenu";
 
 const key = process.env.REACT_APP_YOUTUBE_API_KEY;
 const youtube = new Youtube(key);

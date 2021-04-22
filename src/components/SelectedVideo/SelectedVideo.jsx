@@ -3,6 +3,7 @@ import VideoDetail from "../VideoDetail/VideoDetail";
 import VideoList from "../VideoList/VideoList";
 import {useParams} from "react-router-dom";
 import styles from './SelectedVideo.module.css';
+import {infiniteScroll} from "../../service/infiniteScroll";
 
 const SelectedVideo = ({youtube}) => {
 
@@ -23,6 +24,16 @@ const SelectedVideo = ({youtube}) => {
     getSelectedVideo();
   }, [videoId]);
 
+  useEffect(() => {
+    window.addEventListener("scroll", paging);
+    return () => {
+      window.removeEventListener("scroll", paging);
+    };
+  }, [videoNextPageToken, videoList]);
+
+  const paging = () => {
+    infiniteScroll(videoNextPageToken, getVideoList);
+  };
   const getSelectedVideo = () => {
     let data = '';
     let channelId = '';

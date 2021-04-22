@@ -5,7 +5,11 @@ export const infiniteScroll = (nextPageToken, api, query) => {
 
   if(scrollTop + clientHeight === scrollHeight) {
       if(typeof nextPageToken === "undefined") return;
-      api(query, nextPageToken);
+      if(query) {
+        api(query, nextPageToken);
+      }else{
+        api(nextPageToken);
+      }
   }
 };
 

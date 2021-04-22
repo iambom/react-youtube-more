@@ -18,7 +18,7 @@ const VideoList = ({videos, channels, display}) => {
       }
     },[display]);
 
-
+    // console.log(channels);
     return (
         <div className={`${styles.container} ${displayType}`}>
             <ul>

@@ -1,25 +1,35 @@
 import React, {useEffect, useState} from 'react';
-import Header from "../Header/Header";
-import styles from "../../app.module.css";
-import VideoDetail from "../VideoDetail/VideoDetail";
 import SideMenu from "../SideMenu/SideMenu";
 import VideoList from "../VideoList/VideoList";
+import {infiniteScroll} from "../../service/infiniteScroll";
 
 const Main = ({ youtube }) => {
   const [videos, setVideos] = useState([]);
   const [channels, setChannels] = useState([]);
+  const [channelIDList, setChannelIDList] = useState([]);
   const [videoNextPageToken, setVideoNextPageToken] = useState('');
-  const [selectedVideo, setSelectedVideo] = useState(null);
 
   useEffect(() => {
     getMostPopular();
   }, [youtube]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", paging);
+    return () => {
+      window.removeEventListener("scroll", paging);
+    };
+  }, [videoNextPageToken, videos]);
+
+  const paging = () => {
+    infiniteScroll(videoNextPageToken, getMostPopular);
+  };
 
   const getMostPopular = (videoNextPageToken) => {
     youtube.mostPopular(videoNextPageToken).then(result => {
       setVideoNextPageToken(result.nextPageToken);
       let newVideos = result.items;
       let newChannelIdList = [];
+
       newVideos.forEach(element => {
         newChannelIdList.push(element.snippet.channelId);
       });
