@@ -3,7 +3,7 @@ import Comments from '../Comments/Comments';
 import styles from './VideoDetail.module.css';
 
 const VideoDetail = ({video, channel, comments, commentsChannelLogos}) => {
-    console.log("VideoDetail ",channel);
+    // console.log("VideoDetail ",channel);
     const getViewCount = (count) => {
         const result = count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         return result;
