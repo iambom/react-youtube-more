@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from './app.module.css';
 import Header from './components/Header/Header';
 import SideMenu from './components/SideMenu/SideMenu';
 import VideoDetail from './components/VideoDetail/VideoDetail';
 import VideoList from './components/VideoList/VideoList';
+import { infiniteScroll } from "./service/infiniteScroll";
 
 function App({youtube}) {
-  console.log(youtube);
+  // console.log(youtube);
   const [videos, setVideos] = useState([]);
   const [channels, setChannels] = useState([]);
   const [videoNextPageToken, setVideoNextPageToken] = useState('');
@@ -34,14 +35,16 @@ function App({youtube}) {
     window.scrollTo(0, 0)
   };
 
-  useEffect(() => {
-    console.log("start");
-    getMostPopular();
-  }, [youtube]);
+  // useEffect(() => {
+  //   console.log("start");
+  //   getMostPopular();
+  // }, [youtube, getMostPopular]);
 
   
-  const getMostPopular = (videoNextPageToken) => {
+  const getMostPopular = useCallback((videoNextPageToken) => {
+    console.log('토큰 ',videoNextPageToken)
     youtube.mostPopular(videoNextPageToken).then(result => {
+      console.log('스크롤')
       setVideoNextPageToken(result.nextPageToken);
       let newVideos = result.items;
       let newChannelIdList = [];
@@ -56,33 +59,44 @@ function App({youtube}) {
         let newChannelList = channels.concat();
         newChannelList = [...newChannelList, ...newChannels];
         setChannels(newChannelList);
+        console.log('채널리스트 ',newChannelList)
       });
       setVideos(newVideoList);
     });
-  };
+  }, [youtube, videos, channels]);
 
-  const infiniteScroll = () => {
-    let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
-    let scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
-    let clientHeight = document.documentElement.clientHeight;
+  // const infiniteScroll = () => {
+  //   let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+  //   let scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+  //   let clientHeight = document.documentElement.clientHeight;
 
-    if(scrollTop + clientHeight >= scrollHeight) {
-      if(isSearched) {
-        if(typeof searchNextPageToken === "undefined") return;
-        search(query, searchNextPageToken);
-      } else {
-        if(typeof videoNextPageToken === "undefined") return;
-        getMostPopular(videoNextPageToken);
-      }
-    }
-  };
+  //   if(scrollTop + clientHeight >= scrollHeight) {
+  //     if(isSearched) {
+  //       if(typeof searchNextPageToken === "undefined") return;
+  //       search(query, searchNextPageToken);
+  //     } else {
+  //       console.log("모지?")
+  //       if(typeof videoNextPageToken === "undefined") return;
+  //       console.log("??????")
+  //       getMostPopular(videoNextPageToken);
+  //     }
+  //   }
+  // };
+  const paging = useCallback(() =>
+    infiniteScroll(videoNextPageToken, getMostPopular)
+  , [getMostPopular, videoNextPageToken]);
 
   useEffect(() => {
-    window.addEventListener("scroll", infiniteScroll);
+    console.log("start");
+    getMostPopular();
+  }, [youtube, getMostPopular]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", paging);
     return () => {
-      window.removeEventListener("scroll", infiniteScroll);
+      window.removeEventListener("scroll", paging);
     };
-  }, [videoNextPageToken, videos, channels, searchedVideos, searchedChannels, searchNextPageToken]);
+  }, [paging, videoNextPageToken, videos, channels]);
   
   const search = (value, searchNextPageToken) => {
     setSelectedVideo(null);

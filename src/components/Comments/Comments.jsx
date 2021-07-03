@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Comments.module.css';
 
 const Comments = ({comments, commentsChannelLogos}) => {
-    console.log(comments)
+    // console.log(comments)
     const getPublishedTime = (publishedAt) => {
         let now = new Date(); 
         let writeDay = new Date(publishedAt);

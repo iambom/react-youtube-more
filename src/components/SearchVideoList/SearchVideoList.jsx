@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import VideoList from "../VideoList/VideoList";
 import { useLocation } from "react-router-dom";
 import SideMenu from "../SideMenu/SideMenu";
@@ -13,13 +13,6 @@ const SearchVideoList = ({youtube}) => {
   const [searchNextPageToken, setSearchNextPageToken] = useState('');
 
   useEffect(() => {
-    let query = search.split("=");
-    query = query[1];
-    onSearch(query);
-    // setPreQuery(query);
-  }, [search]);
-
-  useEffect(() => {
     window.addEventListener("scroll", paging);
     return () => {
       window.removeEventListener("scroll", paging);
@@ -30,7 +23,7 @@ const SearchVideoList = ({youtube}) => {
     infiniteScroll(searchNextPageToken, onSearch, preQuery);
   };
 
-  const onSearch = (query, searchNextPageToken) => {
+  const onSearch = useCallback((query, searchNextPageToken) => {
     youtube.search(query, searchNextPageToken).then(result => {
       setPreQuery(query);
       setSearchNextPageToken(result.nextPageToken);
@@ -68,9 +61,13 @@ const SearchVideoList = ({youtube}) => {
         });
       });
     });
-  };
+  }, [youtube, preQuery, searchedChannels, searchedVideos]);
 
-
+  useEffect(() => {
+    let query = search.split("=");
+    query = query[1];
+    onSearch(query);
+  }, [search ,onSearch]);
 
   return(
     <>
