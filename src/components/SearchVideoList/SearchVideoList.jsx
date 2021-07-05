@@ -34,13 +34,10 @@ const SearchVideoList = ({youtube}) => {
       });
 
       youtube.getVideoList(newVideoIdList).then(videos => {
-        console.log(videos);
         let channelIdList = [];
         let newVideos = videos;
         let newVideoList = [];
         if(preQuery === query) {
-          console.log("newVideoList ", newVideoList);
-          console.log("searchedVideos ", searchedVideos);
           newVideoList = searchedVideos.concat()
         };
         if(preQuery !== query) window.scrollTo(0, 0);
@@ -49,25 +46,23 @@ const SearchVideoList = ({youtube}) => {
           channelIdList.push(element.snippet.channelId);
         });
 
-        console.log("before ", newVideoList)
         newVideoList = [...newVideoList, ...newVideos];
-        console.log("after ",newVideoList)
         setSearchedVideos(newVideoList);
 
         youtube.getChannelList(channelIdList).then(channels =>{
           let newChannelList = preQuery !== query ? [] : searchedChannels.concat();
           newChannelList = [...newChannelList, ...channels];
-          setSearchedChannels(newChannelList)
+          setSearchedChannels(newChannelList);
         });
       });
     });
   }, [youtube, preQuery, searchedChannels, searchedVideos]);
 
   useEffect(() => {
-    let query = search.split("=");
-    query = query[1];
+    let query = search.split("=")[1];
+    // query = query[1];
     onSearch(query);
-  }, [search ,onSearch]);
+  }, [search]);
 
   return(
     <>

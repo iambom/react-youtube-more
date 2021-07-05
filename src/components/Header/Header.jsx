@@ -3,7 +3,7 @@ import Search from '../Search/Search';
 import logoImg from '../../images/logo.png';
 import styles from './Header.module.css'
 
-const Header = ({onSearch}) => {
+const Header = () => {
     return (
        <div className={styles.header}>
            <div className={styles.headerLeft}>
@@ -13,7 +13,7 @@ const Header = ({onSearch}) => {
                 </a>
                 <span className={styles.regionCode}>KR</span>
            </div>
-           <Search onSearch={onSearch}/>
+           <Search />
            <div className={styles.headerRight}>
                 <button className={styles.app}><i className="fas fa-th"></i></button>
                 <button className={styles.setting}><i className="fas fa-ellipsis-v"></i></button>

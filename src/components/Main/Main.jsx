@@ -6,23 +6,21 @@ import {infiniteScroll} from "../../service/infiniteScroll";
 const Main = ({ youtube }) => {
   const [videos, setVideos] = useState([]);
   const [channels, setChannels] = useState([]);
-  const [channelIDList, setChannelIDList] = useState([]);
   const [videoNextPageToken, setVideoNextPageToken] = useState('');
 
   useEffect(() => {
     getMostPopular();
   }, [youtube]);
 
+  const paging = () => {
+    infiniteScroll(videoNextPageToken, getMostPopular);
+  };
   useEffect(() => {
     window.addEventListener("scroll", paging);
     return () => {
       window.removeEventListener("scroll", paging);
     };
-  }, [videoNextPageToken, videos]);
-
-  const paging = () => {
-    infiniteScroll(videoNextPageToken, getMostPopular);
-  };
+  }, [paging, videoNextPageToken, videos]);
 
   const getMostPopular = (videoNextPageToken) => {
     youtube.mostPopular(videoNextPageToken).then(result => {
@@ -41,6 +39,7 @@ const Main = ({ youtube }) => {
         let newChannelList = channels.concat();
         newChannelList = [...newChannelList, ...newChannels];
         setChannels(newChannelList);
+        
       });
       setVideos(newVideoList);
     });

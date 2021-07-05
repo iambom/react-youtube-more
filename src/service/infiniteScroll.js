@@ -8,7 +8,6 @@ export const infiniteScroll = (nextPageToken, api, query) => {
       if(query) {
         api(query, nextPageToken);
       }else{
-        console.log('다음 토큰 ',nextPageToken)
         api(nextPageToken);
       }
   }

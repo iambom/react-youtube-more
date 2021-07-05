@@ -1,4 +1,6 @@
 * {box-sizing: border-box;margin:0;padding:0;}
 #root{width:100%;overflow: hidden;}
 #wrap{width:100%;display: flex;padding-top: 46px;background-color: #F6F6F6;position: relative;}
-button{background: none;border:none;}
+li{list-style: none;}
+a{text-decoration: none;}
+button{background: none;border:none;cursor: pointer;}
