@@ -3,7 +3,7 @@
 .container .channel_logo img{display: block;width:48px;height:48px;border-radius: 50%;}
 .metadata{margin-left: 1em;}
 .metadata .txt_wrap{font-size: 0.9rem;}
-.metadata .txt_wrap .channel_name{margin-right: 0.5em;}
+.metadata .txt_wrap .channel_name{margin-right: 0.5em;color: #000;}
 .metadata .txt_wrap p {font-size: 1rem;margin-top: 0.5em;}
 
 .metadata .btn_wrap{margin-top: 0.5em;}

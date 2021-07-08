@@ -40,14 +40,16 @@ const VideoDetail = ({video, channel, comments, commentsChannelLogos}) => {
 
     const getLikeCount = (count) => {
         let result;
+        console.log('개수 ',count, count.length, typeof count)
 
-        if(count.length <= 4) {
+        if(count.length < 5) {
             if(count.length === 0) {
                 result = 0;
-            }else if(0 < count.length <=3) {
+            }else if( count.length === 4) {
+                result = parseFloat(count / 1000).toFixed(1) + "천";
+            }else if(0 < count.length < 4) {
                 result = count;
             }
-            result = parseFloat(count / 1000).toFixed(1) + "천";
         }else if( 4 < count.length < 9) {
             result = parseFloat(count / 10000).toFixed(0) + "만";
         }else if(count.length >= 9) {

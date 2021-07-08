@@ -2,5 +2,5 @@
 #root{width:100%;overflow: hidden;}
 #wrap{width:100%;display: flex;padding-top: 46px;background-color: #F6F6F6;position: relative;}
 li{list-style: none;}
-a{text-decoration: none;color: #000;}
+a{text-decoration: none;}
 button{background: none;border:none;cursor: pointer;color:#555}

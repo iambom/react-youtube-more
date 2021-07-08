@@ -38,7 +38,7 @@ class Youtube{
     }
 
     async getCommentList(videoId) {
-        const response = await fetch(`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&textFormat=plainText&maxResults=20&videoId=${videoId}&key=${this.key}`, this.getRequestOptions);
+        const response = await fetch(`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&textFormat=plainText&maxResults=12&videoId=${videoId}&key=${this.key}`, this.getRequestOptions);
         const result = await response.json();
         return result.items;
     }
