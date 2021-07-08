@@ -8,7 +8,7 @@ const Header = () => {
        <div className={styles.header}>
            <div className={styles.headerLeft}>
                 <button className={styles.guide}><i className="fas fa-bars"></i></button>
-                <a href="https://www.youtube.com/">
+                <a href="/">
                     <img className={styles.logo} src={logoImg} alt="Youtube logo"/>
                 </a>
                 <span className={styles.regionCode}>KR</span>

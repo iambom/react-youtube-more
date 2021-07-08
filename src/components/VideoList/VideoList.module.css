@@ -1,3 +1,8 @@
 .container{width:100%;padding-left: 4%;}
-.container ul{padding:1em 4em;display: flex;flex-wrap: wrap;align-items: center;}
-.grid{width:40%;padding:0.5em 3em 0 1em;}
+.container ul{display: flex;flex-wrap: wrap;align-items: center;}
+.grid{width:40%;padding:0.5em 1em 0 1em;}
+
+@media(max-width: 960px){
+    .grid{width:100%;}
+    .container{padding: 20px}
+}

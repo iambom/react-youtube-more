@@ -8,5 +8,5 @@
 .logo{width:100%;}
 .regionCode{color:#333;font-size: 0.6em;position: absolute;top:-2px;padding:0 0.3em;}
 
-.headerRight{width:15%;text-align: right;}
+.headerRight{width:15%;text-align: right;margin-left: auto;}
 .headerRight button{margin-left: 1em;}
