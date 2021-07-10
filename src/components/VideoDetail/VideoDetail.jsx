@@ -3,7 +3,6 @@ import Comments from '../Comments/Comments';
 import styles from './VideoDetail.module.css';
 
 const VideoDetail = ({video, channel, comments, commentsChannelLogos}) => {
-    // console.log("VideoDetail ",channel);
     const getViewCount = (count) => {
         const result = count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         return result;
@@ -26,7 +25,7 @@ const VideoDetail = ({video, channel, comments, commentsChannelLogos}) => {
             result = count / 1000 + "천";
             if(count.length === 0) {
                 result = 0;
-            }else if(0 < count.length <=3) {
+            }else if(0 < count.length < 4) {
                 result = count;
             }
         }else if( 4 < count.length < 9) {
@@ -40,7 +39,6 @@ const VideoDetail = ({video, channel, comments, commentsChannelLogos}) => {
 
     const getLikeCount = (count) => {
         let result;
-        console.log('개수 ',count, count.length, typeof count)
 
         if(count.length < 5) {
             if(count.length === 0) {
@@ -109,7 +107,7 @@ const VideoDetail = ({video, channel, comments, commentsChannelLogos}) => {
 
             <div className={styles.comment_wrap}>
                 <p>댓글 {getViewCount(video.statistics.commentCount)}개</p>
-                <Comments comments={comments} commentsChannelLogos={commentsChannelLogos}/>
+                <Comments comments={comments}/>
             </div>
         </div>
     )

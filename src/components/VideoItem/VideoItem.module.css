@@ -2,7 +2,7 @@
 .container.grid > a{width:100%;display: flex;min-height: 0;}
 
 .container {cursor: pointer;margin-bottom: 40px;}
-.container.grid{margin-bottom: 10px}
+.container.grid{width:100%; margin-bottom: 10px}
 .container > a{color:#333333}
 .img_wrap{margin-bottom: 0.5em;}
 img{display: block;width:100%;}

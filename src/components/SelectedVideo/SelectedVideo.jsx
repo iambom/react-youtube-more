@@ -34,7 +34,7 @@ const SelectedVideo = ({youtube}) => {
   const paging = () => {
     infiniteScroll(videoNextPageToken, getVideoList);
   };
-  const getSelectedVideo = () => {
+  const getSelectedVideo = async () => {
     let data = '';
     let channelId = '';
     let channelData = '';

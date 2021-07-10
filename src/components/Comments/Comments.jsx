@@ -1,8 +1,7 @@
 import React from 'react';
 import styles from './Comments.module.css';
 
-const Comments = ({comments, commentsChannelLogos}) => {
-    // console.log(comments)
+const Comments = ({comments}) => {
     const getPublishedTime = (publishedAt) => {
         let now = new Date(); 
         let writeDay = new Date(publishedAt);
@@ -46,15 +45,8 @@ const Comments = ({comments, commentsChannelLogos}) => {
             {
 
                 comments.map(comment => {
-                    const {authorChannelId , authorProfileImageUrl,authorDisplayName, publishedAt, textDisplay, likeCount} = comment.snippet.topLevelComment.snippet;
+                    const {authorProfileImageUrl,authorDisplayName, publishedAt, textDisplay, likeCount} = comment.snippet.topLevelComment.snippet;
 
-                    let channelLogo, channel;
-                    commentsChannelLogos.forEach(element => {
-                        if(element.id === authorChannelId.value) {
-                            channel = element;
-                            channelLogo = element.snippet.thumbnails.default.url;
-                        }
-                    });
                     return(
                         <li key={comment.id}>
                             <a href="#" className={styles.channel_logo}>

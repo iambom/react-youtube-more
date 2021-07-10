@@ -9,16 +9,7 @@ const VideoList = ({videos, channels, display}) => {
     useEffect(() => {
       setVideoList(videos);
     }, [videos]);
-
-    useEffect(() => {
-      if(display === 'grid') {
-        const newList = videoList.splice(0, 24);
-        console.log("splice", newList);
-        setVideoList(newList);
-      }
-    },[display]);
-
-    // console.log(channels);
+    
     return (
         <div className={`${styles.container} ${displayType}`}>
             <ul>
