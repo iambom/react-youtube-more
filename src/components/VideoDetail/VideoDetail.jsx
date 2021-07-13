@@ -2,7 +2,7 @@ import React from 'react';
 import Comments from '../Comments/Comments';
 import styles from './VideoDetail.module.css';
 
-const VideoDetail = ({video, channel, comments, commentsChannelLogos}) => {
+const VideoDetail = ({video, channel, comments}) => {
     const getViewCount = (count) => {
         const result = count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         return result;

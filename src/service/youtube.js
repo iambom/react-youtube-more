@@ -26,7 +26,7 @@ class Youtube{
 
         const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${this.key}${pageToken}`, this.getRequestOptions);
         const result = await response.json();
-        console.log("검색 ", result, result.nextPageToken)
+        console.log("검색어 ",query, result, result.nextPageToken)
         // return result.items, result.nextPageToken;
         return result
     }

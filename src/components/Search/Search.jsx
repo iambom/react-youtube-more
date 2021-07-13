@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import styles from './Search.module.css';
 import { useHistory } from 'react-router-dom';
 
-const Search = ({youtube}) => {
+const Search = () => {
     const history = useHistory();
     const inputRef = useRef();
 

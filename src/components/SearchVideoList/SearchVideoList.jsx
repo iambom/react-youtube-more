@@ -59,8 +59,7 @@ const SearchVideoList = ({youtube}) => {
   }, [youtube, preQuery, searchedChannels, searchedVideos]);
 
   useEffect(() => {
-    let query = search.split("=")[1];
-    // query = query[1];
+    const query = search.split("=")[1];
     onSearch(query);
   }, [search]);
 
