@@ -64,5 +64,39 @@ Youtube API를 이용한 React 클론 코딩 강의를 듣고 세부 기능을 �
       onSearch(query);
     }, [search]);
    ```
+  
+ - **fetch() 로 네트워크 통신**    
+   fetch() 함수는 첫 번째 인자로 요청 보낼 URL, 두 번째 인자로 option 객체를 받고, Promise 타입의 객체를 반환한다. 반환된 객체는 API 호출이 성공 했을 경우, 응답(respone) 객체를 resolve 하고, 실패한 경우, 예외(error) 객체를 reject 한다.
+    ```
+      fecth(url, options)
+       .then(response => console.log(`response : ${response}`))
+       .catch(error => console.log(`error : ${error}`))
+   ```
+   options 객체에는 HTTP 방식(method), HTTP 요청 헤더(headers), HTTP 요청 전문(body) 등을 설정해 줄 수 있다. 응답(response) 객체로부터는 HTTP 응답 상태(status), HTTP 응답 헤더(headers), HTTP 응답 전문(body) 등을 읽어올 수 있다.     
+    fetch() 함수는 디폴트로 GET 방식으로 작동하고 GET 방식은 요청 전문(body)는 받지 않기 때문에 option 인자를 보내지 않아도 된다.     
+     ```
+        fecth(url)
+        .then(response => console.log(response))
+     ```
+    대부분의 REST API들은 JSON 형태의 데이터를 응답하기 때문에, 응답(response)객체는 json() 메서드를 제공한다.    
+    단순히 특정 API에 저장된 데이터를 보여주는 웹페이지나 어플리케이션에서는 GET 방식의 HTTP 통신으로 충분하다. 그러나 fetch()는 예전 버전의 브라우저에서는 작동하지 않는 단점이 있다!!    
     
+    ```// youtube.js
+    class Youtube{
+        constructor(key) {
+            this.key = key;
+            this.getRequestOptions = {
+                method: 'GET',
+                redirect: 'follow',
+            }
+        }
+
+      async mostPopular() {
+        const response = await fecth(`https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=kr&maxResults=24&part=statistics&key=${this.key}`, this.getRequestOptions);
+        const result = await response.json();
+        return result.items;	
+      }
+    }
+    ```
+     
  
