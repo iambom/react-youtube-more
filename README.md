@@ -1,9 +1,9 @@
 # React Youtube
 
-Youtube API를 이용한 React 클론 코딩 강의를 듣고 세부 기능을 더 구현했습니다.
-반응형 웹 페이지입니다.
+Youtube API를 이용해 비디오 렌더링, 검색 기능 구현, 비디오 디테일 화면만을 불러오는 React 클론 코딩 강의를 듣고 라우팅을 이용해 URL로 이동을 하고 API에서 받아온 데이터를 가공하여 만든 기능들로 조금 더 유튜브처럼 구현했습니다.
+반응형 웹입니다.
 
-💻  
+💻  <https://bomin-react-youtube.netlify.app/>
 
 
  ## 🛠 Skill & Tool
@@ -23,7 +23,73 @@ Youtube API를 이용한 React 클론 코딩 강의를 듣고 세부 기능을 �
  - useParams()로 넘겨 받은 비디오 ID로 Comments API를 호출하여 해당 컨텐츠에 관련된 댓글 정보를 받아서 표시
  
 ## 📖 프로젝트를 하며 배운 것
+ - **useEffect()**
+   useEffect(() => {}, [])는 컴포넌트가 마운트가 되었거나 업데이트 될 때마다 호출된다. 
+   - 인자가 없을 때는 컴포넌트의 state나 prop이 업데이트가 될 때마다 무조건 useEffect가 호출된다.
+    ```
+    useEffet(() => {
+     console.log('mount')
+    })
+    ```
+    - 인자에 빈 배열 []을 넣어두면 컴포넌트가 처음 마운트 됐을 때만 useEffect가 호출된다. 컴포넌트가 업데이트 될 때마다 다시 호출할 필요가 없는 API를 호출할 때 등 사용.
+    ```
+    useEffet(() => {
+     console.log('call API')
+    }, [])
+    ```
+    - 업데이트 될 때마다 호출하려면 인자에 해당하는 state나 props 등을 넣는다.
+    ```
+    const [videos, setVideos] = useState([]);
     
+    useEffect(() => {
+     console.log(videos);
+    }, [videos]);
+    ```
+ - **불필요한 리렌더링을 방지하기 위해서는  React.memo/useMemo/useCallback 사용한다.**    
+   **React.memo** : UI 성능을 증가시키기 위해 렌더링 결과를 메모이징함으로써, 불필요한 리렌더링을 하지 않는다. 컴포넌트가 React.memo()로 래핑될 때, React는 컴포넌트를 렌더링 하고 결과를 메모이징 한다. 그리고 다음 렌더링이 일어날 때 props가 같다면, React는 메모이징 된 내용을 재사용한다. 
+     - React.memo는 오직 props가 변경 됐는지 아닌지만 체크
+     - memo는 컴포넌트 전체를 감싸는 HOC이다. 따라서 클래스형 컴포넌트, 함수형 컴포넌트 모두 사용 가능하지만 함수형 컴포넌트에서 권장된다. 
+     - memo를 사용하기 가장 좋은 케이스는 함수형 컴포넌트가 같은 props로 자주 렌더링 될 것이라 예상될 때이다. 
+     ```
+     // e.g) 스크롤링으로 다음 페이지의 비디오 리스트만을 불러올 때 Header 컴포넌트는 계속해서 리렌더링 될 필요가 없다.
+     const Header = memo(() => {
+         return (
+            <div className={styles.header}>
+                <div className={styles.headerLeft}></div>
+                <Search />
+                <div className={styles.headerRight}></div>
+            </div>
+         )
+     });
+     ``` 
+         
+         
+          
+          
+   **useCallback** :  자식 컴포넌트에 함수를 props로 줄 때, useCallback을 사용하여 리렌더링이 되지 않도록 한다. memo를 써도 계속 리렌더링 될 때가 있는데 부모 컴포넌트가 함수형 컴포넌트인 경우 state나 props가 바뀌면 부모 컴포넌트 내에서 정의한 변수, 함수 등이 다시 호출되게 되어 자식 컴포넌트에 props로 보낸 콜백함수들이 다시 호출되어 리렌더링이 된다. 이럴 때 useCallback을 쓴다.    
+   ```
+   function App = ({youtube}) => {
+    ...
+
+     const search = useCallback(query => {
+       setSelectedVideo(null);
+       youtube
+       .search(query)
+       .then(videos =>setVideos(videos));
+     }, [youtube]);
+
+     return (
+       <div className={styles.app}>
+         <Search onSearch={search}/>
+         ...
+       </div>
+     )
+
+   }
+
+   export default App;
+   ```
+  
  - **react-router-dom의 hook 사용**  
   **useParams()**  : path의 parameter의 정보를 얻을 수 있다. useParams()를 사용하기 위해서 Route의 path에 동적 라우팅 설정을 해주어야 한다. 
   기존에는 match props를 이용하여 match.params.videoId의 형식으로 접근 해야 했지만 useParams를 이용하면 간단하게 접근 가능하다.
