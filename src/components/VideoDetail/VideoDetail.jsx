@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import Comments from '../Comments/Comments';
 import styles from './VideoDetail.module.css';
 
-const VideoDetail = ({video, channel, comments}) => {
+const VideoDetail = memo(({video, channel, comments}) => {
     const getViewCount = (count) => {
         const result = count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         return result;
@@ -111,6 +111,6 @@ const VideoDetail = ({video, channel, comments}) => {
             </div>
         </div>
     )
-};
+});
 
 export default VideoDetail;

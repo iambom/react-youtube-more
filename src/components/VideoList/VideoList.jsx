@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import VideoItem from '../VideoItem/VideoItem';
 import styles from './VideoList.module.css';
 
-const VideoList = ({videos, channels, display}) => {
+const VideoList = memo(({videos, channels, display}) => {
     const displayType = display === 'grid' ? styles.grid : styles.list;
 
     const [videoList, setVideoList] = useState(videos);
@@ -29,6 +29,6 @@ const VideoList = ({videos, channels, display}) => {
             </ul>
         </div>
     )
-}
+});
 
 export default VideoList;

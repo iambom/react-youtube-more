@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import Search from '../Search/Search';
 import logoImg from '../../images/logo.png';
 import styles from './Header.module.css'
 
-const Header = () => {
+const Header = memo(() => {
     return (
        <div className={styles.header}>
            <div className={styles.headerLeft}>
@@ -21,6 +21,6 @@ const Header = () => {
            </div>
        </div>
     )
-}
+});
 
 export default Header;

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styles from './VideoItem.module.css';
 import { Link } from 'react-router-dom';
 
-const VideoItem = ({video, video : {snippet}, channelLogo, display}) => {
+const VideoItem = memo(({video, video : {snippet}, channelLogo, display}) => {
     // console.log("VideoItem : ",video)
     const getViewCount = () => {
         const viewCount = video.statistics.viewCount;
@@ -77,6 +77,6 @@ const VideoItem = ({video, video : {snippet}, channelLogo, display}) => {
             </Link>
         </li>
     );
-};
+});
 
 export default VideoItem;
