@@ -10,6 +10,12 @@ const Main = ({ youtube }) => {
 
   useEffect(() => {
     getMostPopular();
+    return () => {
+      // Warning: Can't perform a React state update on an unmounted component... 에러 발생으로 cleanup 추가
+      setVideos([]);
+      setChannels([]);
+      setVideoNextPageToken('');
+    }
   }, [youtube]);
 
   const paging = () => {
