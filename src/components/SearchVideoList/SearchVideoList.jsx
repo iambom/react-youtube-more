@@ -12,17 +12,6 @@ const SearchVideoList = ({youtube}) => {
   const [searchedChannels, setSearchedChannels] = useState([]);
   const [searchNextPageToken, setSearchNextPageToken] = useState('');
 
-  useEffect(() => {
-    window.addEventListener("scroll", paging);
-    return () => {
-      window.removeEventListener("scroll", paging);
-    };
-  }, [searchNextPageToken, preQuery, searchedVideos]);
-
-  const paging = () => {
-    infiniteScroll(searchNextPageToken, onSearch, preQuery);
-  };
-
   const onSearch = useCallback((query, searchNextPageToken) => {
     youtube.search(query, searchNextPageToken).then(result => {
       setPreQuery(query);
@@ -50,13 +39,29 @@ const SearchVideoList = ({youtube}) => {
         setSearchedVideos(newVideoList);
 
         youtube.getChannelList(channelIdList).then(channels =>{
+          console.log('1 ',searchedChannels)
           let newChannelList = preQuery !== query ? [] : searchedChannels.concat();
+          
+          console.log('2 ',newChannelList)
           newChannelList = [...newChannelList, ...channels];
+          console.log('3 ',newChannelList)
           setSearchedChannels(newChannelList);
+
         });
       });
     });
-  }, [youtube, preQuery, searchedChannels, searchedVideos]);
+  }, [preQuery ,searchedVideos,searchedChannels, youtube ]);
+
+  const paging = useCallback(() => {
+    infiniteScroll(searchNextPageToken, onSearch, preQuery);
+  }, [onSearch, searchNextPageToken, preQuery]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", paging);
+    return () => {
+      window.removeEventListener("scroll", paging);
+    };
+  }, [paging, searchNextPageToken, preQuery, searchedVideos]);
 
   useEffect(() => {
     const query = search.split("=")[1];

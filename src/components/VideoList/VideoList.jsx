@@ -6,17 +6,19 @@ const VideoList = memo(({videos, channels, display}) => {
     const displayType = display === 'grid' ? styles.grid : styles.list;
 
     const [videoList, setVideoList] = useState(videos);
+    const [channel, setChannelList] = useState(channels);
     useEffect(() => {
       setVideoList(videos);
-    }, [videos]);
-    
+      setChannelList(channels);
+    }, [videos, channels]);
+   
     return (
         <div className={`${styles.container} ${displayType}`}>
             <ul>
                 {
                   videoList.map((video, index) => {
                         let channelLogo;
-                        channels.forEach(element => {
+                        channel.forEach(element => {
                             if(element.id === video.snippet.channelId) {
                                 channelLogo = element.snippet.thumbnails.default.url;
                             }

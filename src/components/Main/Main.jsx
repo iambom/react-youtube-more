@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import SideMenu from "../SideMenu/SideMenu";
 import VideoList from "../VideoList/VideoList";
 import {infiniteScroll} from "../../service/infiniteScroll";
@@ -8,27 +8,7 @@ const Main = ({ youtube }) => {
   const [channels, setChannels] = useState([]);
   const [videoNextPageToken, setVideoNextPageToken] = useState('');
 
-  useEffect(() => {
-    getMostPopular();
-    return () => {
-      // Warning: Can't perform a React state update on an unmounted component... 에러 발생으로 cleanup 추가
-      setVideos([]);
-      setChannels([]);
-      setVideoNextPageToken('');
-    }
-  }, [youtube]);
-
-  const paging = () => {
-    infiniteScroll(videoNextPageToken, getMostPopular);
-  };
-  useEffect(() => {
-    window.addEventListener("scroll", paging);
-    return () => {
-      window.removeEventListener("scroll", paging);
-    };
-  }, [paging, videoNextPageToken, videos]);
-
-  const getMostPopular = (videoNextPageToken) => {
+  const getMostPopular = useCallback((videoNextPageToken) => {
     youtube.mostPopular(videoNextPageToken).then(result => {
       setVideoNextPageToken(result.nextPageToken);
       let newVideos = result.items;
@@ -49,7 +29,28 @@ const Main = ({ youtube }) => {
       });
       setVideos(newVideoList);
     });
-  };
+  }, [youtube, channels, videos]);
+
+  const paging = useCallback(() => {
+    infiniteScroll(videoNextPageToken, getMostPopular);
+  }, [getMostPopular, videoNextPageToken]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", paging);
+    return () => {
+      window.removeEventListener("scroll", paging);
+    };
+  }, [paging, videoNextPageToken, videos]);
+
+  useEffect(() => {
+    getMostPopular();
+    return () => {
+      // Warning: Can't perform a React state update on an unmounted component... 에러 발생으로 cleanup 추가
+      setVideos([]);
+      setChannels([]);
+      setVideoNextPageToken('');
+    }
+  }, [youtube]);
 
   return (
     <>
