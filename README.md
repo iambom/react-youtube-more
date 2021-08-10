@@ -7,7 +7,7 @@ Youtube API를 이용해 비디오 렌더링, 검색 기능 구현, 비디오 �
 
 
  ## 🛠 Skill & Tool
- **`HTML5`**  **`CSS3`**  **`Javascript`**  **`React.js`**  **`npm`** **`fontawesome`**
+ **`HTML5`**  **`CSS3`**  **`Javascript`**  **`React.js`** **`fontawesome`**
 
 
 ## 💡 기능
