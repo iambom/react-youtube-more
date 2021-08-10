@@ -1,7 +1,7 @@
-.search{width:70%;text-align: center;}
+.search{flex: 1;align-items: center;flex-direction: row;text-align: center;}
 input{width:100%;max-width: 575px;height: 30px;padding:0.5em;vertical-align: middle;border:1px solid #ebe8e8;}
 .search .button{width: 100%;max-width: 65px;height: 30px;background-color: lightgray;border:1px solid #ebe8e8;font-size: 1rem;}
 
 @media(max-width: 1024px){
-    input{max-width: 350px;}
+    input{max-width: 330px;}
 }

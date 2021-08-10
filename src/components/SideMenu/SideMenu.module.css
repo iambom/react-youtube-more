@@ -1,7 +1,7 @@
 .block{display: block;}
 .none{display: none;}
 
-.container{position:fixed;width:4%;height:100%;padding:1em 0;background-color: #fff;}
+.container{position:fixed;width:70px;height:100%;padding:1em 0;background-color: #fff;}
 .container button{display: block;width:100%;margin:0 auto;padding:0.5em 0;font-size: 1.2rem;margin-bottom: 0.5em;}
 .container button span{display: block;font-size: 0.8rem;}
 

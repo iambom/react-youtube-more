@@ -1,4 +1,4 @@
-.container{width:100%;padding-left: 4%;margin: 20px;}
+.container{width:100%;padding-left: 70px;margin: 20px;}
 .container ul{display: flex;flex-wrap: wrap;align-items: center;}
 .grid{width:40%;padding:0.5em 1em 0 1em;margin: 0;}
 

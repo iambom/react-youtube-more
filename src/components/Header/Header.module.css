@@ -2,11 +2,11 @@
 .header button{vertical-align: middle;font-size: 1.3rem;}
 
 .header{width:100%;padding:0.5em 16px;display: flex;justify-content: center;position: fixed;top:0;left:0;background-color: #fff;z-index: 99;}
-.headerLeft{width:15%;position:relative;}
+.headerLeft{position:relative;margin-right: 30px;}
 .guide{margin:0 16px 0 0.5em;}
 .header a{display: inline-block;width: 80px;vertical-align: middle;}
 .logo{width:100%;}
 .regionCode{color:#333;font-size: 0.6em;position: absolute;top:-2px;padding:0 0.3em;}
 
-.headerRight{width:15%;text-align: right;margin-left: auto;}
+/* .headerRight{width:15%;text-align: right;margin-left: auto;} */
 .headerRight button{margin-left: 1em;}
