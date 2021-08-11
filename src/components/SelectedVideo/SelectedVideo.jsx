@@ -3,7 +3,7 @@ import VideoDetail from "../VideoDetail/VideoDetail";
 import VideoList from "../VideoList/VideoList";
 import {useParams} from "react-router-dom";
 import styles from './SelectedVideo.module.css';
-import {infiniteScroll} from "../../service/infiniteScroll";
+import {infiniteScroll} from "../../common/infiniteScroll";
 
 const SelectedVideo = ({youtube}) => {
 

@@ -2,7 +2,7 @@ import React, {useEffect, useState, useCallback} from 'react';
 import VideoList from "../VideoList/VideoList";
 import { useLocation } from "react-router-dom";
 import SideMenu from "../SideMenu/SideMenu";
-import { infiniteScroll } from "../../service/infiniteScroll";
+import { infiniteScroll } from "../../common/infiniteScroll";
 
 const SearchVideoList = ({youtube}) => {
   const { search } = useLocation();

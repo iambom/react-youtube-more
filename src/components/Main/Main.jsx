@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import SideMenu from "../SideMenu/SideMenu";
 import VideoList from "../VideoList/VideoList";
-import {infiniteScroll} from "../../service/infiniteScroll";
+import {infiniteScroll} from "../../common/infiniteScroll";
 
 const Main = ({ youtube }) => {
   const [videos, setVideos] = useState([]);
