@@ -39,14 +39,9 @@ const SearchVideoList = ({youtube}) => {
         setSearchedVideos(newVideoList);
 
         youtube.getChannelList(channelIdList).then(channels =>{
-          console.log('1 ',searchedChannels)
           let newChannelList = preQuery !== query ? [] : searchedChannels.concat();
-          
-          console.log('2 ',newChannelList)
           newChannelList = [...newChannelList, ...channels];
-          console.log('3 ',newChannelList)
           setSearchedChannels(newChannelList);
-
         });
       });
     });
