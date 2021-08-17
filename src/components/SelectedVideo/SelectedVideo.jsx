@@ -73,8 +73,7 @@ const SelectedVideo = ({youtube}) => {
       newVideoList = [...newVideoList, ...newVideos];
 
       youtube.getChannelList(newChannelIdList).then(newChannels =>{
-        let newChannelList = channels.concat();
-        newChannelList = [...newChannelList, ...newChannels];
+        let newChannelList = channels.concat(newChannels);
         setChannels(newChannelList);
         setIsLoading(true);
       });

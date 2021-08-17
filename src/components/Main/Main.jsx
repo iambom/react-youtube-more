@@ -18,14 +18,11 @@ const Main = ({ youtube }) => {
         newChannelIdList.push(element.snippet.channelId);
       });
 
-      let newVideoList = videos.concat();
-      newVideoList = [...newVideoList, ...newVideos];
+      let newVideoList = videos.concat(newVideos);
 
       youtube.getChannelList(newChannelIdList).then(newChannels =>{
-        let newChannelList = channels.concat();
-        newChannelList = [...newChannelList, ...newChannels];
+        let newChannelList = channels.concat(newChannels);
         setChannels(newChannelList);
-        
       });
       setVideos(newVideoList);
     });

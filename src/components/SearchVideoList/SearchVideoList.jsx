@@ -24,18 +24,15 @@ const SearchVideoList = ({youtube}) => {
 
       youtube.getVideoList(newVideoIdList).then(videos => {
         let channelIdList = [];
-        let newVideos = videos;
         let newVideoList = [];
-        if(preQuery === query) {
-          newVideoList = searchedVideos.concat()
-        };
+        if(preQuery === query) newVideoList = searchedVideos.concat();
         if(preQuery !== query) window.scrollTo(0, 0);
 
         videos.forEach(element => {
           channelIdList.push(element.snippet.channelId);
         });
 
-        newVideoList = [...newVideoList, ...newVideos];
+        newVideoList = [...newVideoList, ...videos];
         setSearchedVideos(newVideoList);
 
         youtube.getChannelList(channelIdList).then(channels =>{
@@ -61,6 +58,9 @@ const SearchVideoList = ({youtube}) => {
   useEffect(() => {
     const query = search.split("=")[1];
     onSearch(query);
+    return () => {
+      setSearchedVideos([])
+    }
   }, [search]);
 
   return(
